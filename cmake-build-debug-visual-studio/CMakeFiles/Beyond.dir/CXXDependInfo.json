@@ -1,0 +1,22 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "MSVC",
+	"compiler-id" : "MSVC",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"dir-cur-bld" : "C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio",
+	"dir-cur-src" : "C:/Users/marti/CLionProjects/Beyond",
+	"dir-top-bld" : "C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio",
+	"dir-top-src" : "C:/Users/marti/CLionProjects/Beyond",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"C:\\Users\\marti\\vcpkg\\installed\\x64-windows\\include",
+		"C:\\Users\\marti\\vcpkg\\installed\\x64-windows\\include\\vma"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio/CMakeFiles/Beyond.dir"
+}

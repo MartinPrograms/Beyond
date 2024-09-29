@@ -1,0 +1,35 @@
+ninja_dyndep_version = 1.0
+build CMakeFiles\Beyond.dir\main.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Window.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\VulkanBackend.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\vkinit.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\vkutil.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Vulkan\Structs.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Vulkan\DescriptorLayoutBuilder.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Vulkan\DescriptorAllocator.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Vulkan\vk_pipelines.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Vulkan\ImGuiBackend.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Vulkan\VulkanContext.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Vulkan\PipelineBuilder.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Mesh.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Camera.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\ShaderManager.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Other\Transform.cpp.obj: dyndep
+
+build CMakeFiles\Beyond.dir\Graphics\Vulkan\MeshUtils.cpp.obj: dyndep
+

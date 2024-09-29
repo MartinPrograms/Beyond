@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "CMakeFiles\\Beyond.dir\\Graphics\\Vulkan\\DescriptorLayoutBuilder.cpp.obj",
+            "outputs": [
+                "C:\\Users\\marti\\CLionProjects\\Beyond\\cmake-build-debug-visual-studio\\vc140.pdb",
+                "CMakeFiles\\Beyond.dir\\Graphics\\Vulkan\\DescriptorLayoutBuilder.cpp.obj.ddi"
+            ],
+            "requires": []
+        }
+    ]
+}

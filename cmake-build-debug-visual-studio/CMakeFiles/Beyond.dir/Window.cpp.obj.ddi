@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "CMakeFiles\\Beyond.dir\\Window.cpp.obj",
+            "outputs": [
+                "C:\\Users\\marti\\CLionProjects\\Beyond\\cmake-build-debug-visual-studio\\vc140.pdb",
+                "CMakeFiles\\Beyond.dir\\Window.cpp.obj.ddi"
+            ],
+            "requires": []
+        }
+    ]
+}
