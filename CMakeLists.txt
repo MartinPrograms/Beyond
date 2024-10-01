@@ -3,8 +3,6 @@ project(Beyond)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(CMAKE_TOOLCHAIN_FILE "C:/Users/marti/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-
 find_package(vk-bootstrap CONFIG REQUIRED)
 find_package(VulkanHeaders CONFIG REQUIRED) # Vulkan::Headers, this loads vulkan.h
 find_package(Vulkan REQUIRED)
