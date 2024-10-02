@@ -1,0 +1,4 @@
+/home/marten/CLionProjects/Beyond/cmake-build-debug/CMakeFiles/Beyond.dir
+/home/marten/CLionProjects/Beyond/cmake-build-debug/CMakeFiles/Shaders.dir
+/home/marten/CLionProjects/Beyond/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/marten/CLionProjects/Beyond/cmake-build-debug/CMakeFiles/rebuild_cache.dir

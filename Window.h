@@ -8,6 +8,7 @@
 #include <iostream>
 
 #define GLFW_INCLUDE_VULKAN
+#include <vector>
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan_core.h>
 
@@ -29,7 +30,7 @@ public:
     VkResult create_surface(VkInstance instance, VkSurfaceKHR* surface) const;
 
     void getFramebufferSize(unsigned int * width, unsigned int * height);
-
+    static std::vector<std::string> get_extensions();
 private:
     bool shouldCloseFlag = false;
 };

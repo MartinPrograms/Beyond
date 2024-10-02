@@ -1,0 +1,43 @@
+file(REMOVE_RECURSE
+  "Beyond"
+  "Beyond.pdb"
+  "CMakeFiles/Beyond.dir/Graphics/Camera.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Camera.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Mesh.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Mesh.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Other/Transform.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Other/Transform.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/ShaderManager.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/ShaderManager.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/DescriptorAllocator.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/DescriptorAllocator.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/DescriptorLayoutBuilder.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/DescriptorLayoutBuilder.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/ImGuiBackend.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/ImGuiBackend.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/MeshUtils.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/MeshUtils.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/PipelineBuilder.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/PipelineBuilder.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/Structs.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/Structs.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/VulkanContext.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/VulkanContext.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/vk_pipelines.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/Vulkan/vk_pipelines.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/VulkanBackend.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/VulkanBackend.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/vkinit.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/vkinit.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Graphics/vkutil.cpp.o"
+  "CMakeFiles/Beyond.dir/Graphics/vkutil.cpp.o.d"
+  "CMakeFiles/Beyond.dir/Window.cpp.o"
+  "CMakeFiles/Beyond.dir/Window.cpp.o.d"
+  "CMakeFiles/Beyond.dir/main.cpp.o"
+  "CMakeFiles/Beyond.dir/main.cpp.o.d"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/Beyond.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

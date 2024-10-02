@@ -224,13 +224,24 @@ namespace Graphics {
     void VulkanBackend::init_vulkan() {
         vkb::InstanceBuilder builder;
 
-        auto inst_ret = builder.set_app_name("Beyond Engine")
-            .request_validation_layers(this->enableValidationLayers)
-            .use_default_debug_messenger()
+        auto extensions = Window::get_extensions();
+
+        auto b = builder.set_app_name("Beyond Engine")
+            .request_validation_layers(this->enableValidationLayers);
+
+        for (auto &extension : extensions) {
+            b.enable_extension(extension.c_str());
+        }
+
+        auto output = b.use_default_debug_messenger()
             .require_api_version(1,3,0)
             .build();
 
-        vkb::Instance vkb_inst = inst_ret.value();
+        if (!output)
+            std::cout << output.error().message() << std::endl;
+
+
+        vkb::Instance vkb_inst = output.value();
         this->context.instance = vkb_inst.instance;
         this->context.debugMessenger = vkb_inst.debug_messenger;
 

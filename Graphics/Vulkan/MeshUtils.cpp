@@ -4,6 +4,8 @@
 
 #include "MeshUtils.h"
 
+#include <cstring>
+
 #include "VulkanContext.h"
 #include "../vkinit.h"
 

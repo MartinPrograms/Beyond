@@ -1,0 +1,13 @@
+/app/extra/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" -S /home/marten/CLionProjects/Beyond -B /home/marten/CLionProjects/Beyond/cmake-build-debug
+-- GLSL Validator found at: /usr/bin/glslangValidator
+-- Compiling shaders from /home/marten/CLionProjects/Beyond/Shaders to /home/marten/CLionProjects/Beyond/cmake-build-debug/Shaders
+-- Found /home/marten/CLionProjects/Beyond/Shaders/colored_triangle.frag;/home/marten/CLionProjects/Beyond/Shaders/colored_triangle.vert;/home/marten/CLionProjects/Beyond/Shaders/test.comp
+-- Compiling /home/marten/CLionProjects/Beyond/Shaders/colored_triangle.frag to /home/marten/CLionProjects/Beyond/cmake-build-debug/Shaders/colored_triangle.frag.spv
+-- Command: /usr/bin/glslangValidator -V /home/marten/CLionProjects/Beyond/Shaders/colored_triangle.frag -o /home/marten/CLionProjects/Beyond/cmake-build-debug/Shaders/colored_triangle.frag.spv
+-- Compiling /home/marten/CLionProjects/Beyond/Shaders/colored_triangle.vert to /home/marten/CLionProjects/Beyond/cmake-build-debug/Shaders/colored_triangle.vert.spv
+-- Command: /usr/bin/glslangValidator -V /home/marten/CLionProjects/Beyond/Shaders/colored_triangle.vert -o /home/marten/CLionProjects/Beyond/cmake-build-debug/Shaders/colored_triangle.vert.spv
+-- Compiling /home/marten/CLionProjects/Beyond/Shaders/test.comp to /home/marten/CLionProjects/Beyond/cmake-build-debug/Shaders/test.comp.spv
+-- Command: /usr/bin/glslangValidator -V /home/marten/CLionProjects/Beyond/Shaders/test.comp -o /home/marten/CLionProjects/Beyond/cmake-build-debug/Shaders/test.comp.spv
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/marten/CLionProjects/Beyond/cmake-build-debug
