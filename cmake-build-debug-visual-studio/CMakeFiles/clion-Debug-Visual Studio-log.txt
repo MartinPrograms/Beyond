@@ -1,13 +1,1 @@
-"C:\Program Files\JetBrains\CLion 2024.2.0.1\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2024.2.0.1/bin/ninja/win/x64/ninja.exe" -DCMAKE_TOOLCHAIN_FILE=C:/Users/marti/vcpkg/scripts/buildsystems/vcpkg.cmake -G Ninja -S C:\Users\marti\CLionProjects\Beyond -B C:\Users\marti\CLionProjects\Beyond\cmake-build-debug-visual-studio
--- GLSL Validator found at: C:/VulkanSDK/1.3.290.0/Bin/glslangValidator.exe
--- Compiling shaders from C:/Users/marti/CLionProjects/Beyond/Shaders to C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio/Shaders
--- Found C:/Users/marti/CLionProjects/Beyond/Shaders/colored_triangle.frag;C:/Users/marti/CLionProjects/Beyond/Shaders/colored_triangle.vert;C:/Users/marti/CLionProjects/Beyond/Shaders/test.comp
--- Compiling C:/Users/marti/CLionProjects/Beyond/Shaders/colored_triangle.frag to C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio/Shaders/colored_triangle.frag.spv
--- Command: C:/VulkanSDK/1.3.290.0/Bin/glslangValidator.exe -V C:/Users/marti/CLionProjects/Beyond/Shaders/colored_triangle.frag -o C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio/Shaders/colored_triangle.frag.spv
--- Compiling C:/Users/marti/CLionProjects/Beyond/Shaders/colored_triangle.vert to C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio/Shaders/colored_triangle.vert.spv
--- Command: C:/VulkanSDK/1.3.290.0/Bin/glslangValidator.exe -V C:/Users/marti/CLionProjects/Beyond/Shaders/colored_triangle.vert -o C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio/Shaders/colored_triangle.vert.spv
--- Compiling C:/Users/marti/CLionProjects/Beyond/Shaders/test.comp to C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio/Shaders/test.comp.spv
--- Command: C:/VulkanSDK/1.3.290.0/Bin/glslangValidator.exe -V C:/Users/marti/CLionProjects/Beyond/Shaders/test.comp -o C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio/Shaders/test.comp.spv
--- Configuring done (0.2s)
--- Generating done (0.0s)
--- Build files have been written to: C:/Users/marti/CLionProjects/Beyond/cmake-build-debug-visual-studio
+CMakeLists.txt not found in C:\Users\marti\CLionProjects\Beyond Select CMakeLists.txt
