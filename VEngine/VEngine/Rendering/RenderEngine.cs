@@ -5,7 +5,8 @@ namespace VEngine.Rendering;
 public unsafe class RenderEngine
 {
     private ManagedNativeLibrary library;
-    private void* engine;
+    private void* window;
+    private void* context; // graphics context
     
     public RenderEngine(string title, int width, int height, bool vsync, bool fullscreen)
     { 
@@ -15,7 +16,8 @@ public unsafe class RenderEngine
         library.AutoLoadMethods<Delegates>();
         
         
-        engine = library.GetFunction<Delegates.CreateWindow>("CreateWindow")(title.ToCharPointer(), width, height, vsync, fullscreen);
+        window = library.GetFunction<Delegates.CreateWindow>("CreateWindow")(title.ToCharPointer(), width, height, vsync, fullscreen);
+        context = library.GetFunction<Delegates.CreateGraphics>("CreateGraphics")();
     }
     
     public void Run()
@@ -40,11 +42,22 @@ public unsafe class RenderEngine
     
     public void Destroy()
     {
+        library.GetFunction<Delegates.DestroyGraphics>("DestroyGraphics")();
         library.GetFunction<Delegates.DestroyWindow>("DestroyWindow")();
     }
     
     public void Dispose()
     {
         library.Dispose();
+    }
+    
+    public void UpdateGraphics()
+    {
+        library.GetFunction<Delegates.UpdateGraphics>("UpdateGraphics")();
+    }
+
+    public void Render()
+    {
+        library.GetFunction<Delegates.RenderGraphics>("RenderGraphics")();
     }
 }

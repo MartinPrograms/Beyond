@@ -15,5 +15,8 @@ public class Delegates
     /// <summary>
     /// Returns context
     /// </summary>
-    public unsafe delegate void* CreateGraphics(void* window);
+    public unsafe delegate void* CreateGraphics(); // Uses the existing window
+    public unsafe delegate void UpdateGraphics();
+    public unsafe delegate void RenderGraphics();
+    public unsafe delegate void DestroyGraphics();
 }

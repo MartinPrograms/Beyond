@@ -6,12 +6,14 @@ var engine = new RenderEngine("VEngine", 800, 600, true, false);
 
 engine.SetUpdateCallback(() =>
 {
-    // Do nothing rn
+    engine.UpdateGraphics();
 });
 
 engine.SetRenderCallback(() =>
 {
-    Console.WriteLine("FPS: " + 1 / engine.GetDeltaTime());
+    engine.Render();
 });
 
 engine.Run();
+
+engine.Destroy();

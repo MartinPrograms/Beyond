@@ -22,6 +22,7 @@ float deltaTime = 0.0f;
 
 Window window;
 Graphics::VulkanBackend* graphics;
+Graphics::Camera camera;
 
 extern "C"{
     API_EXPORT void* CreateWindow(const char* name, int width, int height, bool vsync, bool fullScreen);
@@ -33,7 +34,10 @@ extern "C"{
 
     API_EXPORT float GetDeltaTime();
 
-    API_EXPORT void* CreateGraphics(void* windowptr);
+    API_EXPORT void* CreateGraphics();
+    API_EXPORT void UpdateGraphics();
+    API_EXPORT void RenderGraphics();
+    API_EXPORT void DestroyGraphics();
 }
 
 #endif //API_H

@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\NativeTools\\NativeTools.csproj",
+      "projectUniqueName": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\NativeTools\\NativeTools.csproj",
       "projectName": "NativeTools",
-      "projectPath": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\NativeTools\\NativeTools.csproj",
+      "projectPath": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\NativeTools\\NativeTools.csproj",
       "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\NativeTools\\obj\\",
+      "outputPath": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\NativeTools\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\VEngine\\VEngine.csproj": {}
+    "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\VEngine\\VEngine.csproj": {}
   },
   "projects": {
-    "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\NativeTools\\NativeTools.csproj": {
+    "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\NativeTools\\NativeTools.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\NativeTools\\NativeTools.csproj",
+        "projectUniqueName": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\NativeTools\\NativeTools.csproj",
         "projectName": "NativeTools",
-        "projectPath": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\NativeTools\\NativeTools.csproj",
+        "projectPath": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\NativeTools\\NativeTools.csproj",
         "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\NativeTools\\obj\\",
+        "outputPath": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\NativeTools\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -69,14 +69,14 @@
         }
       }
     },
-    "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\VEngine\\VEngine.csproj": {
+    "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\VEngine\\VEngine.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\VEngine\\VEngine.csproj",
+        "projectUniqueName": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\VEngine\\VEngine.csproj",
         "projectName": "VEngine",
-        "projectPath": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\VEngine\\VEngine.csproj",
+        "projectPath": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\VEngine\\VEngine.csproj",
         "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\VEngine\\obj\\",
+        "outputPath": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\VEngine\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -98,8 +98,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\NativeTools\\NativeTools.csproj": {
-                "projectPath": "C:\\Users\\marti\\CLionProjects\\Beyond\\VEngine\\NativeTools\\NativeTools.csproj"
+              "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\NativeTools\\NativeTools.csproj": {
+                "projectPath": "C:\\Users\\marti\\CLionProjects\\Beyond3\\VEngine\\NativeTools\\NativeTools.csproj"
               }
             }
           }

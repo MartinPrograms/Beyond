@@ -41,7 +41,7 @@ namespace Graphics {
         vkb::destroy_debug_utils_messenger(context.instance,context.debugMessenger, nullptr);
         vkDestroyInstance(context.instance, nullptr);
 
-        std::cout << "Vulkan destroyed! Don't forget to cleanup the window as well!" << std::endl;
+        std::cout << "Vulkan destroyed!!" << std::endl;
     }
 
     void VulkanBackend::update(float deltaTime) {
@@ -166,7 +166,7 @@ namespace Graphics {
         return false;
     }
 
-    void VulkanBackend::render(Camera &camera) {
+    void VulkanBackend::render() {
         auto frame = getCurrentFrame(); // This performs a modulo operation, so it's fine
 
         uint32_t imageIndex;

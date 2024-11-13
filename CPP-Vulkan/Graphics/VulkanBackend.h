@@ -57,7 +57,7 @@ namespace Graphics {
 
         bool waitFencesAcquireImage(const Vulkan::FrameData& frame, uint32_t &imageIndex);
 
-        void render(Camera &camera);
+        void render();
         void debug();
         void init();
 

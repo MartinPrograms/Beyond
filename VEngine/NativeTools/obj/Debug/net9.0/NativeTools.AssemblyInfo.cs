@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NativeTools")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+239e1a3f5ff31a35b0e13a181bf2235f2d89c243")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f685aff8ac0c488f59c7dc45eed821c352cefac8")]
 [assembly: System.Reflection.AssemblyProductAttribute("NativeTools")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NativeTools")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

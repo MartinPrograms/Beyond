@@ -64,7 +64,22 @@ void * CreateWindow(const char *name, int width, int height, bool vsync, bool fu
     return &window;
 }
 
-void * CreateGraphics(void *windowptr) {
-    graphics = new Graphics::VulkanBackend(reinterpret_cast<Window*>(windowptr));
+void * CreateGraphics() {
+    graphics = new Graphics::VulkanBackend(&window);
+    graphics->debug(); // This prints out some gpu info, and enables validation layers
+    graphics->init(); // This initializes vulkan
+
     return graphics;
+}
+
+void UpdateGraphics() {
+    graphics->update(deltaTime);
+}
+
+void RenderGraphics() {
+    graphics->render();
+}
+
+void DestroyGraphics() {
+    graphics->~VulkanBackend();
 }
