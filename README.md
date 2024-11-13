@@ -2,4 +2,4 @@
 
 This project contains:  
 - C++ render engine (CPP-Vulkan)
-- C# game engine, with bindings to the render engine!
+- C# game engine, with bindings to the render engine! (VEngine)
