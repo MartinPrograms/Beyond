@@ -1,3 +1,5 @@
+cmake_policy(SET CMP0076 NEW)
+
 cmake_minimum_required(VERSION 3.1)
 project(Beyond)
 

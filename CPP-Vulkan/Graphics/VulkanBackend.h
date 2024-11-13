@@ -11,7 +11,6 @@
 
 #include "../Window.h"
 
-#include <KHR/khrplatform.h>
 #include <vulkan/vulkan.h>
 
 #include "Camera.h"
