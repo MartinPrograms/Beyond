@@ -1,0 +1,11 @@
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\bin\Debug\net9.0\NativeTools.deps.json
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\bin\Debug\net9.0\NativeTools.dll
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\bin\Debug\net9.0\NativeTools.pdb
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\obj\Debug\net9.0\NativeTools.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\obj\Debug\net9.0\NativeTools.AssemblyInfoInputs.cache
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\obj\Debug\net9.0\NativeTools.AssemblyInfo.cs
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\obj\Debug\net9.0\NativeTools.csproj.CoreCompileInputs.cache
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\obj\Debug\net9.0\NativeTools.dll
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\obj\Debug\net9.0\refint\NativeTools.dll
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\obj\Debug\net9.0\NativeTools.pdb
+C:\Users\marti\CLionProjects\Beyond\VEngine\NativeTools\obj\Debug\net9.0\ref\NativeTools.dll
