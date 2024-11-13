@@ -14,6 +14,11 @@ find_package(VulkanMemoryAllocator CONFIG REQUIRED) # Sexy smexy memory allocato
 find_package(imgui CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 
+# import moltenvk if macOS
+if (APPLE)
+    find_library(MOLTENVK_LIBRARIES MoltenVK)
+endif()
+
 add_library(Beyond SHARED
         Window.cpp
         Window.h
@@ -55,6 +60,9 @@ target_link_libraries(Beyond PRIVATE Vulkan::Headers vk-bootstrap::vk-bootstrap 
 target_link_libraries(Beyond PRIVATE imgui::imgui)
 target_link_libraries(Beyond PRIVATE GPUOpen::VulkanMemoryAllocator)
 target_link_libraries(Beyond PRIVATE assimp::assimp)
+if (APPLE)
+    target_link_libraries(Beyond PRIVATE ${MOLTENVK_LIBRARIES})
+endif()
 
 target_include_directories(Beyond PUBLIC ${glm_INCLUDE_DIRS})
 

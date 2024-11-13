@@ -21,7 +21,7 @@ engine.SetRenderCallback(() =>
 });
 
 engine.CreatePipeline("test", Path.GetFullPath("./shaders/vert.spv"), Path.GetFullPath("./shaders/frag.spv"));
-
+ 
 engine.Run(); // Blocking call
 
 engine.Destroy();

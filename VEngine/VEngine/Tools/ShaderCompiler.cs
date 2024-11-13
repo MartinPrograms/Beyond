@@ -11,12 +11,15 @@ public class ShaderCompiler
     {
         FileTools.CreateDirectory(output);
         
+        File.Delete(output);
+        
         System.Diagnostics.Process process = new System.Diagnostics.Process();
         process.StartInfo.FileName = "glslangvalidator";
         process.StartInfo.Arguments = $"-V {input} -o {output}";
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
+        Console.WriteLine($"Compiling {input} to {output} ({process.StartInfo.FileName} {process.StartInfo.Arguments})");
         process.Start();
         process.WaitForExit();
         string outputString = process.StandardOutput.ReadToEnd();

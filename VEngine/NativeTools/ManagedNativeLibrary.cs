@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿#define __APPLE__
+
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -22,10 +24,19 @@ public class ManagedNativeLibrary
     [DllImport("kernel32", SetLastError = true)]
     private static extern int GetLastError();
 
+// Use the correct library name for macOS
+    #if __APPLE__
+    [DllImport("libdl.dylib", SetLastError = true)]
+    #else
     [DllImport("libdl.so.2", SetLastError = true)]
+    #endif
     private static extern IntPtr dlopen(string path, int flags);
 
+    #if __APPLE__
+    [DllImport("libdl.dylib", SetLastError = true)]
+    #else
     [DllImport("libdl.so.2", SetLastError = true)]
+    #endif
     private static extern IntPtr dlsym(IntPtr handle, string symbol);
 
     [DllImport("libdl.so.2", SetLastError = true)]

@@ -307,6 +307,12 @@ namespace Graphics {
 
         auto extensions = Window::get_extensions();
 
+// If macos, add the VK_KHR_surface", "VK_MVK_macos_surface" extensions
+#ifdef __APPLE__
+        extensions.push_back("VK_KHR_surface");
+        extensions.push_back("VK_MVK_macos_surface");
+#endif
+
         auto b = builder.set_app_name("Beyond Engine")
             .request_validation_layers(this->enableValidationLayers);
 

@@ -13,8 +13,13 @@ public unsafe class RenderEngine
     public RenderEngine(string title, int width, int height, bool vsync, bool fullscreen)
     { 
         library = new ManagedNativeLibrary();
-        library.Load("../../../../../CPP-Vulkan/build/Beyond.dll"); // TODO: For macos, use .dylib instead of .dll or .so and remove this hardcoded path lol
-
+        if (OperatingSystem.IsWindows())
+            library.Load("../../../../../CPP-Vulkan/build/Beyond.dll"); // TODO: For macos, use .dylib instead of .dll or .so and remove this hardcoded path lol
+        if (OperatingSystem.IsLinux())
+            library.Load("../../../../../CPP-Vulkan/build/Beyond.so");
+        if (OperatingSystem.IsMacOS())
+            library.Load("../../../../../CPP-Vulkan/build/libBeyond.dylib");
+        
         library.AutoLoadMethods<Delegates>();
         
         
