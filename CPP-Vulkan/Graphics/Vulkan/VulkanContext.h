@@ -22,7 +22,11 @@ public:
         return VulkanContextInstance;
     }
 
-    VulkanContext() {
+    static struct VkDevice_T* getDevice() {
+        return VulkanContextInstance->device;
+    }
+
+VulkanContext() {
         VulkanContextInstance = this;
         this->window = nullptr;
         this->swapchainExtent = {0, 0};

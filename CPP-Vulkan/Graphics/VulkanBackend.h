@@ -66,8 +66,11 @@ namespace Graphics {
         Vulkan::GPUMeshBuffers upload_mesh(std::span<uint32_t> indices, std::span<Vulkan::Vertex> vertices);
 
         Graphics::Mesh::Mesh loadMesh(const char *str, int index, std::string pipelineName);
+        void destroyMesh(Mesh::Mesh &mesh);
 
         void createPipeline(const char * str, const char * text, const char * string);
+        void destroyPipeline(const char * str);
+
 
     private:
         bool initialized = false;

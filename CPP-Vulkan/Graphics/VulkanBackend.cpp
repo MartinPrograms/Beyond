@@ -251,12 +251,15 @@ namespace Graphics {
         return mesh;
     }
 
+    void VulkanBackend::destroyMesh(Mesh::Mesh &mesh) {
+        mesh.destroy(context);
+    }
+
     void VulkanBackend::createPipeline(const char *name, const char *frag, const char *vert) {
 
         if (_meshPipelineLayout == VK_NULL_HANDLE) {
             auto info = vkinit::pipeline_layout_create_info();
 
-            Vulkan::GPUDrawPushConstants pushConstants;
             VkPushConstantRange pushConstantsRange = {};
             pushConstantsRange.offset = 0;
             pushConstantsRange.size = sizeof(Vulkan::GPUDrawPushConstants);
@@ -271,6 +274,11 @@ namespace Graphics {
         auto shaderManager = ShaderManager::instance;
 
         std::cout << "Creating pipeline " << name << std::endl;
+        if (shaderManager == nullptr) {
+            std::cout << "Shader manager is null!" << std::endl;
+            return;
+        }
+
         shaderManager->createPipeline(name, frag, vert, context.device, _meshPipelineLayout, context.swapchainImageFormat, VK_FORMAT_D32_SFLOAT, VK_POLYGON_MODE_FILL, VK_CULL_MODE_BACK_BIT);
         std::cout << "Pipeline created!" << std::endl;
         auto pipeline = shaderManager->getPipeline(name);
@@ -285,6 +293,12 @@ namespace Graphics {
 
             }
         });
+    }
+
+    void VulkanBackend::destroyPipeline(const char *str) {
+        auto shaderManager = ShaderManager::instance;
+
+        shaderManager->destroyPipeline(str);
     }
 
 

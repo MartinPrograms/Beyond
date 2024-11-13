@@ -5,6 +5,7 @@
 #include "vkutil.h"
 
 #include <fstream>
+#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -75,6 +76,7 @@ void vkutil::copy_image_to_image(VkCommandBuffer cmd, VkImage source, VkImage de
 bool vkutil::load_shader_module(VkDevice device, const char *filename, VkShaderModule*out_module) {
     std::ifstream file(filename, std::ios::ate | std::ios::binary);
     if (!file.is_open()) {
+        std::cout << "Failed to open file: " << filename << std::endl;
         throw std::runtime_error("Failed to open file: " + std::string(filename));
     }
 

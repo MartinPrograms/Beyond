@@ -8,6 +8,7 @@
 #include <chrono>
 
 #include "Window.h"
+#include "Graphics/ShaderManager.h"
 
 // is c++ code
 
@@ -82,4 +83,26 @@ void RenderGraphics() {
 
 void DestroyGraphics() {
     graphics->~VulkanBackend();
+}
+
+void CreatePipeline(const char *name, const char *vertexShaderPath, const char *fragmentShaderPath) {
+    graphics->createPipeline(name, vertexShaderPath, fragmentShaderPath);
+}
+
+void DestroyPipeline(const char *name) {
+    graphics->destroyPipeline(name);
+}
+
+void SetClearColor(float r, float g, float b, float a) {
+    graphics->clearColor = {r, g, b, a};
+}
+
+void * LoadMesh(const char *filePath, int index, const char *pipelineName) {
+    auto mesh = graphics->loadMesh(filePath, index, pipelineName);
+    return &mesh;
+}
+
+void DestroyMesh(void *mesh) {
+    graphics->destroyMesh(*static_cast<Graphics::Mesh::Mesh *>(mesh));
+    delete static_cast<Graphics::Mesh::Mesh *>(mesh);
 }

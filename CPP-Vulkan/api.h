@@ -38,6 +38,19 @@ extern "C"{
     API_EXPORT void UpdateGraphics();
     API_EXPORT void RenderGraphics();
     API_EXPORT void DestroyGraphics();
+
+    API_EXPORT void SetClearColor(float r, float g, float b, float a);
+
+    // Pipeline
+    API_EXPORT void CreatePipeline(const char* name, const char* vertexShaderPath, const char* fragmentShaderPath);
+    API_EXPORT void DestroyPipeline(const char* name);
+
+    // Meshes
+    API_EXPORT void* LoadMesh(const char* filePath, int index, const char* pipelineName);
+    API_EXPORT void DestroyMesh(void* mesh);
+
+    API_EXPORT Graphics::Other::Transform* GetTransform(void* mesh);
+    API_EXPORT void SetTransform(void* mesh, Graphics::Other::Transform* transform);
 }
 
 #endif //API_H

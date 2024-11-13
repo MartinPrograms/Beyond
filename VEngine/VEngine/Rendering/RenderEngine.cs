@@ -1,4 +1,6 @@
-﻿using NativeTools;
+﻿using System.Numerics;
+using NativeTools;
+using VEngine.Rendering.Structs;
 
 namespace VEngine.Rendering;
 
@@ -59,5 +61,45 @@ public unsafe class RenderEngine
     public void Render()
     {
         library.GetFunction<Delegates.RenderGraphics>("RenderGraphics")();
+    }
+    
+    public void SetClearColor(float r, float g, float b, float a)
+    {
+        library.GetFunction<Delegates.SetClearColor>("SetClearColor")(r, g, b, a);
+    }
+
+    public void SetClearColor(Vector3 v3)
+    {
+        SetClearColor(v3.X, v3.Y, v3.Z, 1.0f);
+    }
+    
+    public void CreatePipeline(string name, string vertexShaderPath, string fragmentShaderPath)
+    {
+        library.GetFunction<Delegates.CreatePipeline>("CreatePipeline")(name.ToCharPointer(), vertexShaderPath.ToCharPointer(), fragmentShaderPath.ToCharPointer());
+    }
+    
+    public void DestroyPipeline(string name)
+    {
+        library.GetFunction<Delegates.DestroyPipeline>("DestroyPipeline")(name.ToCharPointer());
+    }
+    
+    public void LoadMesh(string path, int index, string pipelineName)
+    {
+        library.GetFunction<Delegates.LoadMesh>("LoadMesh")(path.ToCharPointer(), index, pipelineName.ToCharPointer());
+    }
+    
+    public void DestroyMesh(void* mesh)
+    {
+        library.GetFunction<Delegates.DestroyMesh>("DestroyMesh")(mesh);
+    }
+    
+    public void SetTransform(void* mesh, Transform* transform)
+    {
+        library.GetFunction<Delegates.SetTransform>("SetTransform")(mesh, transform);
+    }
+    
+    public Transform* GetTransform(void* mesh)
+    {
+        return library.GetFunction<Delegates.GetTransform>("GetTransform")(mesh);
     }
 }

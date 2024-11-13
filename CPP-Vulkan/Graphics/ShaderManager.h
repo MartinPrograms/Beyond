@@ -25,8 +25,6 @@ public:
 
     ShaderManager() {
         instance = this;
-        pipelines = std::unordered_map<std::string, VkPipeline>();
-        pipelineLayouts = std::unordered_map<std::string, VkPipelineLayout>();
     }
 
     VkPipeline getPipeline(const std::string& name) {
@@ -41,16 +39,26 @@ public:
         return pipelineLayouts[string];
     }
 
+    void destroyPipeline(const char * str) {
+        if (pipelines.contains(str)) {
+            vkDestroyPipeline(Vulkan::VulkanContext::getDevice(), pipelines[str], nullptr);
+            pipelines.erase(str);
+        }
+    }
+
     Vulkan::DeletionQueue deletionQueue;
     static ShaderManager *instance;
 
     // The gpu push constants are in the pipeline layout, so we don't need to pass them here
     VkPipeline createPipeline(const std::string& name, const char* frag, const char* vert, VkDevice device, VkPipelineLayout pipelineLayout, VkFormat colorAttachmentFormat, VkFormat depthAttachmentFormat, VkPolygonMode polygon_mode, VkCullModeFlags cull_mode) {
 
+        std::cout << 1 << std::endl;
         if (pipelines.contains(name)) {
             std::cout << "Pipeline with name " << name << " already exists!" << std::endl;
             return pipelines[name];
         }
+
+        std::cout << 2 << std::endl;
 
         VkShaderModule triangleFragShader;
         if (!vkutil::load_shader_module(device, frag, &triangleFragShader)) {
@@ -58,10 +66,14 @@ public:
             throw std::runtime_error("Failed to load triangle fragment shader!");
         }
 
+        std::cout << 3 << std::endl;
+
         VkShaderModule triangleVertShader;
         if (!vkutil::load_shader_module(device, vert, &triangleVertShader)) {
             throw std::runtime_error("Failed to load triangle vertex shader!");
         }
+
+        std::cout << "Creating pipeline" << std::endl;
 
         Vulkan::PipelineBuilder pipelineBuilder;
         pipelineBuilder.pipelineLayout = pipelineLayout;
@@ -85,7 +97,11 @@ public:
         pipelineBuilder.set_color_attachment_format(colorAttachmentFormat);
         pipelineBuilder.set_depth_attachment_format(depthAttachmentFormat);
 
+        std::cout << "Building pipeline" << std::endl;
+
         VkPipeline pipeline = pipelineBuilder.build(device);
+
+        std::cout << "Pipeline built" << std::endl;
 
         vkDestroyShaderModule(device, triangleFragShader, nullptr);
         vkDestroyShaderModule(device, triangleVertShader, nullptr);
@@ -99,8 +115,8 @@ public:
     }
 
 private:
-    std::unordered_map<std::string, VkPipeline> pipelines= {};
-    std::unordered_map<std::string, VkPipelineLayout> pipelineLayouts = {};
+    std::unordered_map<std::string, VkPipeline> pipelines= std::unordered_map<std::string, VkPipeline>();
+    std::unordered_map<std::string, VkPipelineLayout> pipelineLayouts = std::unordered_map<std::string, VkPipelineLayout>();
 };
 
 } // Graphics

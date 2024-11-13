@@ -37,7 +37,7 @@ int main()
     camera.updateAspectRatio(window.width, window.height);
     camera.update();
 
-    backend.createPipeline("test", "Shaders/colored_triangle.frag.spv", "Shaders/colored_triangle.vert.spv");
+    backend.createPipeline("test", "Shaders/default.frag.spv", "Shaders/default.vert.spv");
 
     auto mesh = backend.loadMesh("Models/cube.obj", 0, "test"); // Load a cube mesh
 
