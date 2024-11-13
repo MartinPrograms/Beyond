@@ -30,6 +30,9 @@ public:
     VkResult create_surface(VkInstance instance, VkSurfaceKHR* surface) const;
 
     void getFramebufferSize(unsigned int * width, unsigned int * height);
+
+    void fullScreen();
+
     static std::vector<std::string> get_extensions();
 private:
     bool shouldCloseFlag = false;

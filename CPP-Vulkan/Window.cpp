@@ -29,10 +29,12 @@ void Window::update() {
 void Window::close() const {
     glfwSetWindowShouldClose(this->window, true);
 }
+
 void error_callback(int error, const char* description)
 {
     std::cout << stderr << "Error: " << description << std::endl;
 }
+
 void Window::show() {
     glfwSetErrorCallback(error_callback);
     if(glfwPlatformSupported(GLFW_PLATFORM_WIN32)) glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_WIN32);
@@ -78,6 +80,13 @@ VkResult Window::create_surface(const VkInstance instance, VkSurfaceKHR*surface)
 
 void Window::getFramebufferSize(unsigned int *width, unsigned int *height) {
     return glfwGetFramebufferSize(this->window, (int*)width, (int*)height);
+}
+
+void Window::fullScreen() {
+    auto monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    glfwSetWindowMonitor(this->window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+    glfwSwapInterval(0);
 }
 
 std::vector<std::string> Window::get_extensions() {

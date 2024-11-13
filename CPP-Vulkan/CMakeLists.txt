@@ -56,7 +56,7 @@ target_link_libraries(Beyond PRIVATE assimp::assimp)
 
 target_include_directories(Beyond PUBLIC ${glm_INCLUDE_DIRS})
 
-target_sources(Beyond PRIVATE api.h)
+target_sources(Beyond PUBLIC api.h)
 
 set_target_properties(Beyond PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build"
