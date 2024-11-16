@@ -88,9 +88,9 @@ public unsafe class RenderEngine
         library.GetFunction<Delegates.DestroyPipeline>("DestroyPipeline")(name.ToCharPointer());
     }
     
-    public void LoadMesh(string path, int index, string pipelineName)
+    public void* LoadMesh(string path, int index, string pipelineName)
     {
-        library.GetFunction<Delegates.LoadMesh>("LoadMesh")(path.ToCharPointer(), index, pipelineName.ToCharPointer());
+        return library.GetFunction<Delegates.LoadMesh>("LoadMesh")(path.ToCharPointer(), index, pipelineName.ToCharPointer());
     }
     
     public void DestroyMesh(void* mesh)
@@ -106,5 +106,20 @@ public unsafe class RenderEngine
     public Transform* GetTransform(void* mesh)
     {
         return library.GetFunction<Delegates.GetTransform>("GetTransform")(mesh);
+    }
+
+    public void SetLoadCallback(Delegates.Callback action)
+    {
+        library.GetFunction<Delegates.SetLoadCallback>("SetLoadCallback")(action);
+    }
+
+    public void RenderMesh(void* mesh)
+    {
+        library.GetFunction<Delegates.RenderMesh>("RenderMesh")(mesh);
+    }
+
+    public SafetyWrapper<Transform> CreateTransform()
+    {
+        return new SafetyWrapper<Transform>(library.GetFunction<Delegates.CreateTransform>("CreateTransform")());
     }
 }

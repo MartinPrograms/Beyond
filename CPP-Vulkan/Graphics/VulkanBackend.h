@@ -41,6 +41,9 @@ namespace Graphics {
         // drawables is a list of things to draw.
         std::deque<std::function<void(VkCommandBuffer, VkImageView)>> drawables;
         std::deque<std::function<void(float deltaTime)>> updatables;
+
+        std::deque<std::function<void(VkCommandBuffer, VkImageView)>> drawQueue; // cleared after each frame, has to be repopulated
+
         VkDescriptorSet render_descriptor_set;
 
         explicit VulkanBackend(Window* window);
@@ -67,9 +70,12 @@ namespace Graphics {
         Graphics::Mesh::Mesh loadMesh(const char *str, int index, std::string pipelineName);
         void destroyMesh(Mesh::Mesh &mesh);
 
-        void createPipeline(const char * str, const char * text, const char * string);
+        void createPipeline(const char * str, const char * vert, const char * frag);
         void destroyPipeline(const char * str);
 
+        void renderMesh(Mesh::Mesh& mesh);
+        Camera* currentCamera;
+        Camera defaultCamera; // Default camera, used when no camera is set
 
     private:
         bool initialized = false;

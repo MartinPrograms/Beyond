@@ -11,6 +11,7 @@ public class Delegates
     public delegate void Callback();
     public unsafe delegate void SetRenderCallback(Callback renderCallback);
     public unsafe delegate void SetUpdateCallback(Callback updateCallback);
+    public unsafe delegate void SetLoadCallback(Callback loadCallback);
     public unsafe delegate void Run();
     public unsafe delegate float GetDeltaTime();
 
@@ -41,4 +42,9 @@ public class Delegates
     
     public unsafe delegate Transform* GetTransform(void* mesh);
     public unsafe delegate void SetTransform(void* mesh, Transform* transform);
+    
+    // Rendering stuff for meshes
+    public unsafe delegate void RenderMesh(void* mesh);
+
+    public unsafe delegate Transform* CreateTransform();
 }

@@ -5,6 +5,27 @@
 #include "Camera.h"
 
 namespace Graphics {
+    Camera::Camera() {
+/*
+        *    camera.position = glm::vec3(0.0f, 0.0f, 3.0f);
+            camera.yaw = -90.0f;
+            camera.pitch = 0.0f;
+            camera.fov = 45.0f;
+            camera.near = 0.1f;
+            camera.far = 100.0f;
+
+ */
+
+        this->position = glm::vec3(0.0f, 0.0f, 3.0f);
+        this->yaw = -90.0f;
+        this->pitch = 0.0f;
+        this->fov = 90.0f;
+        this->near = 0.1f;
+        this->far = 100.0f;
+        this->aspectRatio = 1.0f;
+        update();
+    }
+
     void Camera::update() {
         // Calculate front vector
         glm::vec3 newFront;

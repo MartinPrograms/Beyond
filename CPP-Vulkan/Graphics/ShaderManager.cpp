@@ -5,5 +5,5 @@
 #include "ShaderManager.h"
 
 namespace Graphics {
-    ShaderManager* ShaderManager::instance = nullptr;
+
 } // Graphics

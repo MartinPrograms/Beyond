@@ -10,3 +10,11 @@ public struct Transform
     public Quaternion Rotation;
     public Vector3 Scale;
 }
+
+public static unsafe class TransformExtensions
+{
+    public static void Rotate(this SafetyWrapper<Transform> transform, Vector3 axis, float angle)
+    {
+        transform.Pointer->Rotation *= Quaternion.CreateFromAxisAngle(axis, angle);
+    }
+}

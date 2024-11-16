@@ -28,7 +28,7 @@ namespace Graphics::Mesh {
         int getVerticesSize() const;
         int getIndicesSize() const;
 
-        void draw(VkCommandBuffer commandBuffer, Camera camera, VkImageView image,VkDescriptorSet descriptor_set) const;
+        void draw(VkCommandBuffer commandBuffer, Camera* camera, VkImageView image,VkDescriptorSet descriptor_set);
 
         void destroy(const Vulkan::VulkanContext &context) const;
         Other::Transform transform;

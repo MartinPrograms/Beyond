@@ -13,9 +13,11 @@ namespace Graphics {
 namespace Mesh {
     Mesh::Mesh(const std::string &pipelineName) {
         this->pipelineName = pipelineName;
-        this->pipeline = ShaderManager::getInstance()->getPipeline(pipelineName);
+        auto shaderManager = ShaderManager::getInstance();
+        this->pipeline = shaderManager->getPipeline(pipelineName);
 
         if (pipeline == VK_NULL_HANDLE) {
+            std::cout << "Pipeline not found!" << std::endl;
             throw std::runtime_error("Pipeline not found");
         }
 
@@ -54,18 +56,24 @@ namespace Mesh {
         return indicesSize;
     }
 
-    void Mesh::draw(VkCommandBuffer commandBuffer, Camera camera,
-        VkImageView image, VkDescriptorSet descriptor_set) const {
+    void Mesh::draw(VkCommandBuffer commandBuffer, Camera* camera,
+        VkImageView image, VkDescriptorSet descriptor_set) {
         if (pipeline == VK_NULL_HANDLE) {
-            throw std::runtime_error("Pipeline not found");
+            std::cout << "Pipeline not found!!!" << std::endl;
+            // Before we crash, we should check if the pipeline is in the shader manager
+            auto shaderManager = ShaderManager::getInstance();
+            this->pipeline = shaderManager->getPipeline(pipelineName);
+            if (pipeline == VK_NULL_HANDLE)
+                throw std::runtime_error("Pipeline not found");
+            std::cout << "Restored pipeline!" << std::endl;
         }
 
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 
         Vulkan::GPUDrawPushConstants pushConstants;
         pushConstants.model = transform.getModelMatrix();
-        pushConstants.view = camera.getViewMatrix();
-        pushConstants.projection = camera.getProjectionMatrix();
+        pushConstants.view = camera->getViewMatrix();
+        pushConstants.projection = camera->getProjectionMatrix();
         pushConstants.meshBufferAddress = gpuMeshBuffers.vertexBufferDeviceAddress; // Weird how Vulkan uses this, unlike OpenGL where its VBO.Bind()
 
         vkCmdPushConstants(commandBuffer, ShaderManager::getInstance()->getPipelineLayout(pipelineName), VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(Vulkan::GPUDrawPushConstants), &pushConstants);

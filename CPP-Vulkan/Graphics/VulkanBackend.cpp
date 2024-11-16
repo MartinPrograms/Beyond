@@ -6,6 +6,7 @@
 
 
 #include <array>
+#include <utility>
 #include <vk_mem_alloc.h>
 
 
@@ -23,6 +24,8 @@ namespace Graphics {
         this->imguiBackend = Vulkan::ImGuiBackend(&this->context);
 
         this->context.window = window;
+        this->defaultCamera = Camera();
+        this->currentCamera = &defaultCamera;
     }
 
     VulkanBackend::~VulkanBackend() {
@@ -199,6 +202,12 @@ namespace Graphics {
             drawable(frame.mainCommandBuffer, _drawImage.imageView);
         }
 
+        for (auto &drawable : drawQueue) {
+            drawable(frame.mainCommandBuffer, _drawImage.imageView);
+        }
+
+        drawQueue.clear();
+
         imguiBackend.draw(frame.mainCommandBuffer, _drawImage.imageView);
 
         vkCmdEndRendering(frame.mainCommandBuffer); // that concludes in engine rendering
@@ -232,8 +241,6 @@ namespace Graphics {
 
         init_imgui_pipeline();
 
-        ShaderManager shaderManager = ShaderManager(); // Create the shader manager
-
         this->initialized = true;
     }
 
@@ -241,7 +248,7 @@ namespace Graphics {
         auto meshUtils = Vulkan::MeshUtils(context);
 
         std::cout << "Created mesh utils, loading mesh" << std::endl;
-        auto mesh = meshUtils.loadMesh(str, index, pipelineName);
+        auto mesh = meshUtils.loadMesh(str, index, std::move(pipelineName));
         std:: cout << "Mesh loaded!" << std::endl;
 
         context.mainDeletionQueue.push_function([=]() {
@@ -255,7 +262,7 @@ namespace Graphics {
         mesh.destroy(context);
     }
 
-    void VulkanBackend::createPipeline(const char *name, const char *frag, const char *vert) {
+    void VulkanBackend::createPipeline(const char *name, const char *vert, const char *frag) {
 
         if (_meshPipelineLayout == VK_NULL_HANDLE) {
             auto info = vkinit::pipeline_layout_create_info();
@@ -271,13 +278,9 @@ namespace Graphics {
             vkutil::VK_CHECK(vkCreatePipelineLayout(context.device, &info, nullptr, &_meshPipelineLayout));
         }
 
-        auto shaderManager = ShaderManager::instance;
+        auto shaderManager = ShaderManager::getInstance();
 
         std::cout << "Creating pipeline " << name << std::endl;
-        if (shaderManager == nullptr) {
-            std::cout << "Shader manager is null!" << std::endl;
-            return;
-        }
 
         shaderManager->createPipeline(name, frag, vert, context.device, _meshPipelineLayout, context.swapchainImageFormat, VK_FORMAT_D32_SFLOAT, VK_POLYGON_MODE_FILL, VK_CULL_MODE_BACK_BIT);
         std::cout << "Pipeline created!" << std::endl;
@@ -296,9 +299,16 @@ namespace Graphics {
     }
 
     void VulkanBackend::destroyPipeline(const char *str) {
-        auto shaderManager = ShaderManager::instance;
+        auto shaderManager = ShaderManager::getInstance();
 
         shaderManager->destroyPipeline(str);
+    }
+
+    void VulkanBackend::renderMesh(Mesh::Mesh &mesh) {
+        // Add to the drawQueue
+        drawQueue.push_back([&](VkCommandBuffer cmd, VkImageView drawImage) mutable {
+            mesh.draw(cmd, currentCamera, drawImage, drawImageDescriptorSet);
+        });
     }
 
 
@@ -312,6 +322,7 @@ namespace Graphics {
         extensions.push_back("VK_KHR_surface");
         extensions.push_back("VK_MVK_macos_surface");
 #endif
+        // Ok just found out macos does not even support vulkan 1.3, only 1.2. Love you tim apple
 
         auto b = builder.set_app_name("Beyond Engine")
             .request_validation_layers(this->enableValidationLayers);

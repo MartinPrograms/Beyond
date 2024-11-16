@@ -29,7 +29,16 @@ void Run() {
 
     std::cout << "Running" << std::endl;
 
+    bool first_run = true;
+
     while (!window.shouldClose()) {
+
+        if (first_run) {
+            if (loadCallback != nullptr)
+                loadCallback(); // This is for loading stuff, like meshes, textures, etc. Can be done later yes, but this is for things that need to be loaded before the main loop starts
+            first_run = false;
+        }
+
         if (updateCallback != nullptr)
             updateCallback();
 
@@ -97,12 +106,32 @@ void SetClearColor(float r, float g, float b, float a) {
     graphics->clearColor = {r, g, b, a};
 }
 
-void * LoadMesh(const char *filePath, int index, const char *pipelineName) {
-    auto mesh = graphics->loadMesh(filePath, index, pipelineName);
-    return &mesh;
+void* LoadMesh(const char* filePath, int index, const char* pipelineName) {
+    auto* mesh = new Graphics::Mesh::Mesh(graphics->loadMesh(filePath, index, pipelineName));
+    return static_cast<void*>(mesh);
 }
 
 void DestroyMesh(void *mesh) {
     graphics->destroyMesh(*static_cast<Graphics::Mesh::Mesh *>(mesh));
     delete static_cast<Graphics::Mesh::Mesh *>(mesh);
+}
+
+void SetLoadCallback(Callback callback) {
+    loadCallback = callback;
+}
+
+Graphics::Other::Transform * GetTransform(void *mesh) {
+    return &static_cast<Graphics::Mesh::Mesh *>(mesh)->transform;
+}
+
+Graphics::Other::Transform * CreateTransform() {
+    return new Graphics::Other::Transform();
+}
+
+void SetTransform(void *mesh, Graphics::Other::Transform *transform) {
+    static_cast<Graphics::Mesh::Mesh *>(mesh)->transform = *transform;
+}
+
+void RenderMesh(void *mesh) {
+    graphics->renderMesh(*static_cast<Graphics::Mesh::Mesh *>(mesh));
 }

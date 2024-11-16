@@ -17,6 +17,7 @@ using Callback = void(*)();
 
 static Callback renderCallback = nullptr;
 static Callback updateCallback = nullptr;
+static Callback loadCallback = nullptr;
 
 float deltaTime = 0.0f;
 
@@ -30,6 +31,7 @@ extern "C"{
 
     API_EXPORT void SetRenderCallback(Callback callback);
     API_EXPORT void SetUpdateCallback(Callback callback);
+    API_EXPORT void SetLoadCallback(Callback callback);
     API_EXPORT void Run();
 
     API_EXPORT float GetDeltaTime();
@@ -50,7 +52,10 @@ extern "C"{
     API_EXPORT void DestroyMesh(void* mesh);
 
     API_EXPORT Graphics::Other::Transform* GetTransform(void* mesh);
+    API_EXPORT Graphics::Other::Transform* CreateTransform();
     API_EXPORT void SetTransform(void* mesh, Graphics::Other::Transform* transform);
+
+    API_EXPORT void RenderMesh(void* mesh);
 }
 
 #endif //API_H

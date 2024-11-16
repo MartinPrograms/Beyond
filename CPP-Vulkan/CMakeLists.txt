@@ -1,9 +1,9 @@
-cmake_policy(SET CMP0076 NEW)
-
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.25)
 project(Beyond)
 
+
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(vk-bootstrap CONFIG REQUIRED)
 find_package(VulkanHeaders CONFIG REQUIRED) # Vulkan::Headers, this loads vulkan.h
@@ -60,6 +60,7 @@ target_link_libraries(Beyond PRIVATE Vulkan::Headers vk-bootstrap::vk-bootstrap 
 target_link_libraries(Beyond PRIVATE imgui::imgui)
 target_link_libraries(Beyond PRIVATE GPUOpen::VulkanMemoryAllocator)
 target_link_libraries(Beyond PRIVATE assimp::assimp)
+
 if (APPLE)
     target_link_libraries(Beyond PRIVATE ${MOLTENVK_LIBRARIES})
 endif()

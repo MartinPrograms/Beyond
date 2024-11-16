@@ -120,14 +120,12 @@ namespace Graphics::Vulkan {
 
         pipelineInfo.pDynamicState = &dynamicInfo;
 
-        VkPipeline newPipeline;
-        if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo,
-                nullptr, &newPipeline)
-            != VK_SUCCESS) {
-            std::cout << "failed to create pipeline" << std::endl;
-            return VK_NULL_HANDLE; // failed to create graphics pipeline
-            } else {
-                return newPipeline;
-            }
+        VkPipeline pipeline;
+        if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline) != VK_SUCCESS) {
+            std::cout << "Failed to create pipeline!" << std::endl;
+            throw std::runtime_error("Failed to create pipeline!");
+        }
+
+        return pipeline;
     }
 }
