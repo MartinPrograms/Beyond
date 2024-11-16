@@ -32,12 +32,12 @@ public unsafe class RenderEngine
         library.GetFunction<Delegates.Run>("Run")();
     }
     
-    public void SetRenderCallback(Delegates.Callback callback)
+    public void SetRenderCallback(Callbacks.Callback callback)
     {
         library.GetFunction<Delegates.SetRenderCallback>("SetRenderCallback")(callback);
     }
     
-    public void SetUpdateCallback(Delegates.Callback callback)
+    public void SetUpdateCallback(Callbacks.Callback callback)
     {
         library.GetFunction<Delegates.SetUpdateCallback>("SetUpdateCallback")(callback);
     }
@@ -66,6 +66,8 @@ public unsafe class RenderEngine
     public void Render()
     {
         library.GetFunction<Delegates.RenderGraphics>("RenderGraphics")();
+        
+        Input.Update();
     }
     
     public void SetClearColor(float r, float g, float b, float a)
@@ -108,7 +110,7 @@ public unsafe class RenderEngine
         return library.GetFunction<Delegates.GetTransform>("GetTransform")(mesh);
     }
 
-    public void SetLoadCallback(Delegates.Callback action)
+    public void SetLoadCallback(Callbacks.Callback action)
     {
         library.GetFunction<Delegates.SetLoadCallback>("SetLoadCallback")(action);
     }
@@ -122,4 +124,89 @@ public unsafe class RenderEngine
     {
         return new SafetyWrapper<Transform>(library.GetFunction<Delegates.CreateTransform>("CreateTransform")());
     }
+
+    public SafetyWrapper<Camera> CreateCamera()
+    {
+        return new SafetyWrapper<Camera>(library.GetFunction<Delegates.CreateCamera>("CreateCamera")());
+    }
+    public void SetCamera(Camera* camera)
+    {
+        library.GetFunction<Delegates.SetCamera>("SetCamera")(camera);
+    }
+    
+    public Camera* GetCamera()
+    {
+        return library.GetFunction<Delegates.GetCamera>("GetCamera")();
+    }
+
+    public void SetKeyCallback(Callbacks.KeyCallback action)
+    {
+        library.GetFunction<Delegates.SetKeyCallback>("SetKeyCallback")(action);
+    }
+    
+    public void SetMouseButtonCallback(Callbacks.MouseButtonCallback action)
+    {
+        library.GetFunction<Delegates.SetMouseButtonCallback>("SetMouseButtonCallback")(action);
+    }
+    
+    public void SetMouseCallback(Callbacks.MouseCallback action)
+    {
+        library.GetFunction<Delegates.SetMouseCallback>("SetMouseCallback")(action);
+    }
+
+    public void InitializeInput()
+    {
+        library.GetFunction<Delegates.InitializeInput>("InitializeInput")(window);
+    }
+
+    public void DefaultInputCallbacks()
+    {
+        keyCallback = KeyCallback;
+        mouseButtonCallback = MouseButtonCallback;
+        mouseCallback = MouseCallback;
+        
+        SetKeyCallback(keyCallback);
+        SetMouseButtonCallback(mouseButtonCallback);
+        SetMouseCallback(mouseCallback);
+        
+        Input.OnMouseModeChanged += (sender) =>
+        {
+            library.GetFunction<Delegates.SetMouseMode>("SetMouseMode")((int)Input.MouseMode);
+        };
+    }
+    
+    private void MouseCallback(double xpos, double ypos)
+    {
+        Input.SetMousePosition(new Vector2((float)xpos, (float)ypos));
+    }
+
+    private void MouseButtonCallback(int button, int action, int mods)
+    {
+        if (button > 4) return;
+        
+        if (action == 1)
+            Input.SetMouseButtonDown((MouseButton)button);
+        else
+            Input.SetMouseButtonUp((MouseButton)button);
+    }
+
+    private void KeyCallback(int key, int scancode, int action, int mods)
+    {
+        try
+        {
+            Key k = (Key)key;
+            if (action == 1 || action == 2)
+                Input.SetKeyDown(k);
+            else
+                Input.SetKeyUp(k);
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+    private Callbacks.KeyCallback keyCallback;
+    private Callbacks.MouseButtonCallback mouseButtonCallback;
+    private Callbacks.MouseCallback mouseCallback;
 }

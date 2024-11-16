@@ -135,3 +135,15 @@ void SetTransform(void *mesh, Graphics::Other::Transform *transform) {
 void RenderMesh(void *mesh) {
     graphics->renderMesh(*static_cast<Graphics::Mesh::Mesh *>(mesh));
 }
+
+Graphics::Camera * CreateCamera() {
+    return new Graphics::Camera();
+}
+
+Graphics::Camera * GetCamera() {
+    return &graphics->lastSetCamera; // So the order of operations is in sync with the rest of the code
+}
+
+void SetCamera(Graphics::Camera *camera) {
+    graphics->useCamera(*camera); // We copy it so it doesn't get deleted
+}

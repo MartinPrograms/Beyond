@@ -54,6 +54,8 @@ add_library(Beyond SHARED
         Graphics/Vulkan/MeshUtils.h
         api.h
         api.cpp
+        input.h
+        input.cpp
 )
 
 target_link_libraries(Beyond PRIVATE Vulkan::Headers vk-bootstrap::vk-bootstrap vk-bootstrap::vk-bootstrap-compiler-warnings glfw glm::glm Vulkan::Vulkan)
@@ -67,7 +69,7 @@ endif()
 
 target_include_directories(Beyond PUBLIC ${glm_INCLUDE_DIRS})
 
-target_sources(Beyond PUBLIC api.h)
+target_sources(Beyond PUBLIC api.h input.h)
 
 set_target_properties(Beyond PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build"

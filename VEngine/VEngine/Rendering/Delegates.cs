@@ -8,10 +8,9 @@ public class Delegates
 
     public unsafe delegate void DestroyWindow();
     
-    public delegate void Callback();
-    public unsafe delegate void SetRenderCallback(Callback renderCallback);
-    public unsafe delegate void SetUpdateCallback(Callback updateCallback);
-    public unsafe delegate void SetLoadCallback(Callback loadCallback);
+    public unsafe delegate void SetRenderCallback(Callbacks.Callback renderCallback);
+    public unsafe delegate void SetUpdateCallback(Callbacks.Callback updateCallback);
+    public unsafe delegate void SetLoadCallback(Callbacks.Callback loadCallback);
     public unsafe delegate void Run();
     public unsafe delegate float GetDeltaTime();
 
@@ -47,4 +46,26 @@ public class Delegates
     public unsafe delegate void RenderMesh(void* mesh);
 
     public unsafe delegate Transform* CreateTransform();
+
+    public unsafe delegate Camera* CreateCamera();
+    public unsafe delegate void SetCamera(Camera* camera);
+    public unsafe delegate Camera* GetCamera();
+    
+    // Input:
+
+    
+    public unsafe delegate void SetKeyCallback(Callbacks.KeyCallback keyCallback);
+    public unsafe delegate void SetMouseButtonCallback(Callbacks.MouseButtonCallback mouseButtonCallback);
+    public unsafe delegate void SetMouseCallback(Callbacks.MouseCallback mouseCallback);
+    public unsafe delegate void InitializeInput(void* window);
+
+    public unsafe delegate void SetMouseMode(int mode);
+}
+
+public class Callbacks
+{
+    public delegate void Callback();
+    public unsafe delegate void KeyCallback(int key, int scancode, int action, int mods);
+    public unsafe delegate void MouseButtonCallback(int button, int action, int mods);
+    public unsafe delegate void MouseCallback(double xpos, double ypos);
 }

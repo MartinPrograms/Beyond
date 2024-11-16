@@ -311,6 +311,15 @@ namespace Graphics {
         });
     }
 
+    void VulkanBackend::useCamera(Camera &camera) {
+
+        drawQueue.push_back([&](VkCommandBuffer cmd, VkImageView drawImage) mutable {
+            this->currentCamera = &camera;
+        });
+
+        this->lastSetCamera = camera;
+    }
+
 
     void VulkanBackend::init_vulkan() {
         vkb::InstanceBuilder builder;

@@ -55,6 +55,10 @@ extern "C"{
     API_EXPORT Graphics::Other::Transform* CreateTransform();
     API_EXPORT void SetTransform(void* mesh, Graphics::Other::Transform* transform);
 
+    API_EXPORT Graphics::Camera* CreateCamera(); // Make new camera
+    API_EXPORT Graphics::Camera* GetCamera(); // Get camera currently in use
+    API_EXPORT void SetCamera(Graphics::Camera* camera); // Set camera to use
+
     API_EXPORT void RenderMesh(void* mesh);
 }
 

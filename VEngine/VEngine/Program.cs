@@ -19,25 +19,62 @@ unsafe
     var engine = new RenderEngine("VEngine", 800, 600, true, false);
     void* mesh = null;
     SafetyWrapper<Transform> transform = new SafetyWrapper<Transform>(null);
+    SafetyWrapper<Camera> camera = new SafetyWrapper<Camera>(null);
+    
+    engine.DefaultInputCallbacks();
 
     engine.SetLoadCallback(() =>
     {
+        engine.InitializeInput();
+        
         engine.CreatePipeline("test", Path.GetFullPath("./shaders/vert.spv"), Path.GetFullPath("./shaders/frag.spv"));
         mesh = engine.LoadMesh(Path.GetFullPath($"{root}/Models/cube.obj"), 0, "test");
         transform = engine.CreateTransform(); // Because transform is a pointer, we can modify it and it will be reflected in the engine
-        
-
+        camera = engine.CreateCamera();
     });
 
     engine.SetUpdateCallback(() =>
     {
-        transform.Rotate(new Vector3(0, 1, 0), 1.0f * engine.GetDeltaTime());
+        float speed = 2f * engine.GetDeltaTime();
+        if (Input.GetKey(Key.W))
+            camera.Pointer->Position += camera.Pointer->Front * speed;
+        if (Input.GetKey(Key.S))
+            camera.Pointer->Position -= camera.Pointer->Front * speed;
+        if (Input.GetKey(Key.A))
+            camera.Pointer->Position -= camera.Pointer->Right * speed;
+        if (Input.GetKey(Key.D))
+            camera.Pointer->Position += camera.Pointer->Right * speed;
+        if (Input.GetKey(Key.Space))
+            camera.Pointer->Position -= camera.Pointer->Up * speed;
+        if (Input.GetKey(Key.LeftShift))
+            camera.Pointer->Position += camera.Pointer->Up * speed;
+        
+
+        if (Input.GetMouseButton(MouseButton.Right))
+        {
+            float sensitivity = 0.1f;
+            float x = Input.MouseDelta.X;
+            float y = Input.MouseDelta.Y;
+            camera.Pointer->Yaw += x * sensitivity;
+            camera.Pointer->Pitch += y * sensitivity;
+
+            camera.Pointer->Update();
+            
+            Input.MouseMode = MouseMode.Disabled;
+        }
+        else
+        {
+            Input.MouseMode = MouseMode.Normal;
+        }
+        
         engine.UpdateGraphics(); 
     });
 
     engine.SetRenderCallback(() =>
     {
         engine.SetClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+        
+        engine.SetCamera(camera);
         
         engine.SetTransform(mesh, transform);
         engine.RenderMesh(mesh);
@@ -48,7 +85,7 @@ unsafe
         
         times[timer] = engine.GetDeltaTime();
         
-        engine.Render(); 
+        engine.Render(); // All the functions above (apart from deltaTimes, and setTransforms) are adding to a queue, this function processes the queue
     });
 
     engine.Run(); // Blocking call

@@ -45,6 +45,7 @@ namespace Graphics {
         std::deque<std::function<void(VkCommandBuffer, VkImageView)>> drawQueue; // cleared after each frame, has to be repopulated
 
         VkDescriptorSet render_descriptor_set;
+        Camera lastSetCamera;
 
         explicit VulkanBackend(Window* window);
         ~VulkanBackend();
@@ -74,6 +75,9 @@ namespace Graphics {
         void destroyPipeline(const char * str);
 
         void renderMesh(Mesh::Mesh& mesh);
+
+        void useCamera(Camera & camera);
+
         Camera* currentCamera;
         Camera defaultCamera; // Default camera, used when no camera is set
 
