@@ -46,11 +46,13 @@ namespace Graphics {
     }
 
     glm::mat4 Camera::getViewMatrix() {
-        return glm::lookAt(position, position + front, up);
+        auto localUp = up * -1.0f; // Inverting the up vector, because glm::lookAt expects the up vector to be pointing up.
+        return glm::lookAt(position, position + front, localUp);
     }
 
     glm::mat4 Camera::getProjectionMatrix() {
         fov = glm::clamp(fov, 1.0f, 179.0f);
-        return glm::perspective(glm::radians(fov), aspectRatio, near, far);
+        auto persp = glm::perspective(glm::radians(fov), aspectRatio, near, far);
+        return persp;
     }
 } // Graphics

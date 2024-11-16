@@ -50,6 +50,8 @@ void Run() {
         auto currentTime = std::chrono::high_resolution_clock::now();
         deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - lastTime).count();
         lastTime = currentTime;
+
+        ImGui::EndFrame();
     }
 }
 
@@ -60,6 +62,15 @@ float GetDeltaTime() {
 void * CreateWindow(const char *name, int width, int height, bool vsync, bool fullScreen) {
     window = Window();
 
+
+    window.create(width, height, name);
+
+    window.show();
+    glfwSetFramebufferSizeCallback(window.window, [](GLFWwindow* window, int width, int height) {
+        if (resizeCallback != nullptr)
+            resizeCallback(width, height);
+    });
+
     if (!vsync)
         window.disableVSync();
 
@@ -67,9 +78,6 @@ void * CreateWindow(const char *name, int width, int height, bool vsync, bool fu
         window.fullScreen();
     }
 
-    window.create(width, height, name);
-
-    window.show();
 
     return &window;
 }
@@ -146,4 +154,12 @@ Graphics::Camera * GetCamera() {
 
 void SetCamera(Graphics::Camera *camera) {
     graphics->useCamera(*camera); // We copy it so it doesn't get deleted
+}
+
+void SetResizeCallback(ResizeCallback callback) {
+    resizeCallback = callback;
+}
+
+glm::vec2 *GetResolution() {
+    return new glm::vec2(window.width, window.height);
 }

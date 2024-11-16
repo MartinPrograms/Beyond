@@ -209,4 +209,14 @@ public unsafe class RenderEngine
     private Callbacks.KeyCallback keyCallback;
     private Callbacks.MouseButtonCallback mouseButtonCallback;
     private Callbacks.MouseCallback mouseCallback;
+
+    public void SetResizeCallback(Callbacks.ResizeCallback action)
+    {
+        library.GetFunction<Delegates.SetResizeCallback>("SetResizeCallback")(action);
+    }
+
+    public Vector2 *GetResolution()
+    {
+        return (library.GetFunction<Delegates.GetResolution>("GetResolution")());
+    }
 }

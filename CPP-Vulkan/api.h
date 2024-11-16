@@ -14,10 +14,12 @@
 #include "Graphics/VulkanBackend.h"
 
 using Callback = void(*)();
+using ResizeCallback = void(*)(int, int);
 
 static Callback renderCallback = nullptr;
 static Callback updateCallback = nullptr;
 static Callback loadCallback = nullptr;
+static ResizeCallback resizeCallback = nullptr;
 
 float deltaTime = 0.0f;
 
@@ -32,6 +34,7 @@ extern "C"{
     API_EXPORT void SetRenderCallback(Callback callback);
     API_EXPORT void SetUpdateCallback(Callback callback);
     API_EXPORT void SetLoadCallback(Callback callback);
+    API_EXPORT void SetResizeCallback(ResizeCallback callback);
     API_EXPORT void Run();
 
     API_EXPORT float GetDeltaTime();
@@ -60,6 +63,8 @@ extern "C"{
     API_EXPORT void SetCamera(Graphics::Camera* camera); // Set camera to use
 
     API_EXPORT void RenderMesh(void* mesh);
+
+    API_EXPORT glm::vec2 *GetResolution();
 }
 
 #endif //API_H

@@ -23,14 +23,23 @@ unsafe
     
     engine.DefaultInputCallbacks();
 
+    engine.SetResizeCallback((int x, int y) =>
+    {
+        camera.Pointer->AspectRatio = (float)x / y;
+    });
+
     engine.SetLoadCallback(() =>
     {
         engine.InitializeInput();
         
         engine.CreatePipeline("test", Path.GetFullPath("./shaders/vert.spv"), Path.GetFullPath("./shaders/frag.spv"));
         mesh = engine.LoadMesh(Path.GetFullPath($"{root}/Models/cube.obj"), 0, "test");
-        transform = engine.CreateTransform(); // Because transform is a pointer, we can modify it and it will be reflected in the engine
+        transform = engine.CreateTransform();
         camera = engine.CreateCamera();
+        
+        Vector2* res = engine.GetResolution();
+        Console.WriteLine($"Resolution: {res->X}x{res->Y}");
+        camera.Pointer->AspectRatio = (float)res->X / res->Y;
     });
 
     engine.SetUpdateCallback(() =>
@@ -41,13 +50,13 @@ unsafe
         if (Input.GetKey(Key.S))
             camera.Pointer->Position -= camera.Pointer->Front * speed;
         if (Input.GetKey(Key.A))
-            camera.Pointer->Position -= camera.Pointer->Right * speed;
-        if (Input.GetKey(Key.D))
             camera.Pointer->Position += camera.Pointer->Right * speed;
+        if (Input.GetKey(Key.D))
+            camera.Pointer->Position -= camera.Pointer->Right * speed;
         if (Input.GetKey(Key.Space))
-            camera.Pointer->Position -= camera.Pointer->Up * speed;
-        if (Input.GetKey(Key.LeftShift))
             camera.Pointer->Position += camera.Pointer->Up * speed;
+        if (Input.GetKey(Key.LeftShift))
+            camera.Pointer->Position -= camera.Pointer->Up * speed;
         
 
         if (Input.GetMouseButton(MouseButton.Right))
@@ -55,8 +64,8 @@ unsafe
             float sensitivity = 0.1f;
             float x = Input.MouseDelta.X;
             float y = Input.MouseDelta.Y;
-            camera.Pointer->Yaw += x * sensitivity;
-            camera.Pointer->Pitch += y * sensitivity;
+            camera.Pointer->Yaw -= x * sensitivity;
+            camera.Pointer->Pitch -= y * sensitivity;
 
             camera.Pointer->Update();
             

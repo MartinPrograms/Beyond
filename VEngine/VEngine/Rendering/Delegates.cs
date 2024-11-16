@@ -1,4 +1,5 @@
-﻿using VEngine.Rendering.Structs;
+﻿using System.Numerics;
+using VEngine.Rendering.Structs;
 
 namespace VEngine.Rendering;
 
@@ -60,6 +61,9 @@ public class Delegates
     public unsafe delegate void InitializeInput(void* window);
 
     public unsafe delegate void SetMouseMode(int mode);
+    public unsafe delegate void SetResizeCallback(Callbacks.ResizeCallback resizeCallback);
+
+    public unsafe delegate Vector2 *GetResolution();
 }
 
 public class Callbacks
@@ -68,4 +72,5 @@ public class Callbacks
     public unsafe delegate void KeyCallback(int key, int scancode, int action, int mods);
     public unsafe delegate void MouseButtonCallback(int button, int action, int mods);
     public unsafe delegate void MouseCallback(double xpos, double ypos);
+    public unsafe delegate void ResizeCallback(int width, int height);
 }
