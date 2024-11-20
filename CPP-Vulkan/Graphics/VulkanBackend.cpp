@@ -70,6 +70,7 @@ namespace Graphics {
         while (width == 0 || height == 0) {
             context.window->getFramebufferSize(&width, &height);
 
+            // TODO: This is a temporary fix, we should probably use a condition variable or something, instead of pausing EV
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             glfwPollEvents(); // Otherwise we crash
         }

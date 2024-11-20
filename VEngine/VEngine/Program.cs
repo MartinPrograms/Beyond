@@ -44,7 +44,7 @@ window.Update += deltaTime =>
         camera.Yaw -= x * sensitivity;
         camera.Pitch -= y * sensitivity;
 
-        camera.Update();
+        camera.Update(); // Update the camera's front, right and up vectors
 
         Input.MouseMode = MouseMode.Disabled;
     }
@@ -56,6 +56,8 @@ window.Update += deltaTime =>
 
 window.Load += () =>
 {
+    Graphics.CreatePipeline("default", "./shaders/vert.spv", "./shaders/frag.spv");
+    
     Camera camera = window.Camera;
     camera.Position = new Vector3(0, 0, 3);
     camera.Fov = 45;
