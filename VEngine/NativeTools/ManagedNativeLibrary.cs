@@ -178,6 +178,7 @@ public class ManagedNativeLibrary
         if (methodPtr != IntPtr.Zero)
         {
             cachedDelegates[add] = Marshal.GetDelegateForFunctionPointer<T>(methodPtr);
+            GCHandle.Alloc(cachedDelegates[add]);
         }
         else
         {
@@ -240,7 +241,23 @@ public class ManagedNativeLibrary
             Console.WriteLine($"Loaded method: {field.Name}");
         }
         
+        AllocateMethods();
+        
         Console.WriteLine("All methods loaded.");
+    }
+
+    private void AllocateMethods()
+    {
+        // Uses GC to allocate the methods
+        foreach (var method in Methods)
+        {
+            GC.KeepAlive(method.Value); // Prevents the GC from collecting the method
+        }
+        
+        foreach (var method in cachedDelegates)
+        {
+            GC.KeepAlive(method.Value); // Prevents the GC from collecting the method
+        }
     }
 
     public void Dispose()

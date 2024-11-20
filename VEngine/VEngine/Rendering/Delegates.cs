@@ -48,9 +48,9 @@ public class Delegates
 
     public unsafe delegate Transform* CreateTransform();
 
-    public unsafe delegate Camera* CreateCamera();
-    public unsafe delegate void SetCamera(Camera* camera);
-    public unsafe delegate Camera* GetCamera();
+    public unsafe delegate VkCamera* CreateCamera();
+    public unsafe delegate void SetCamera(VkCamera* camera);
+    public unsafe delegate VkCamera* GetCamera();
     
     // Input:
 

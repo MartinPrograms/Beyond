@@ -6,6 +6,8 @@
 
 
 #include <array>
+#include <chrono>
+#include <thread>
 #include <utility>
 #include <vk_mem_alloc.h>
 
@@ -64,6 +66,14 @@ namespace Graphics {
 
         unsigned int width, height;
         context.window->getFramebufferSize(&width, &height);
+
+        while (width == 0 || height == 0) {
+            context.window->getFramebufferSize(&width, &height);
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            glfwPollEvents(); // Otherwise we crash
+        }
+
 
         // Destroy the old image views
         for (auto imageView : swapchainImageViews) {
@@ -304,7 +314,6 @@ namespace Graphics {
             if (pipeline != VK_NULL_HANDLE) {
                 vkDestroyPipeline(context.device, pipeline, nullptr);
                 std::cout << "Destroyed pipeline!" << std::endl;
-
             }
         });
     }

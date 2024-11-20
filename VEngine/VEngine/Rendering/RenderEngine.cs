@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Runtime.InteropServices;
 using NativeTools;
 using VEngine.Rendering.Structs;
 
@@ -29,18 +30,22 @@ public unsafe class RenderEngine
         context = library.GetFunction<Delegates.CreateGraphics>("CreateGraphics")();
     }
 
+    private Delegates.Run _run;
     public void Run()
     {
-        library.GetFunction<Delegates.Run>("Run")();
+        _run = library.GetFunction<Delegates.Run>("Run");
+        _run();
     }
     
     public void SetRenderCallback(Callbacks.Callback callback)
     {
+        GCHandle.Alloc(callback);
         library.GetFunction<Delegates.SetRenderCallback>("SetRenderCallback")(callback);
     }
     
     public void SetUpdateCallback(Callbacks.Callback callback)
     {
+        GCHandle.Alloc(callback);
         library.GetFunction<Delegates.SetUpdateCallback>("SetUpdateCallback")(callback);
     }
     
@@ -114,6 +119,7 @@ public unsafe class RenderEngine
 
     public void SetLoadCallback(Callbacks.Callback action)
     {
+        GCHandle.Alloc(action); // Prevent garbage collection
         library.GetFunction<Delegates.SetLoadCallback>("SetLoadCallback")(action);
     }
 
@@ -127,16 +133,16 @@ public unsafe class RenderEngine
         return new SafetyWrapper<Transform>(library.GetFunction<Delegates.CreateTransform>("CreateTransform")());
     }
 
-    public SafetyWrapper<Camera> CreateCamera()
+    public SafetyWrapper<VkCamera> CreateCamera()
     {
-        return new SafetyWrapper<Camera>(library.GetFunction<Delegates.CreateCamera>("CreateCamera")());
+        return new SafetyWrapper<VkCamera>(library.GetFunction<Delegates.CreateCamera>("CreateCamera")());
     }
-    public void SetCamera(Camera* camera)
+    public void SetCamera(VkCamera* camera)
     {
         library.GetFunction<Delegates.SetCamera>("SetCamera")(camera);
     }
     
-    public Camera* GetCamera()
+    public VkCamera* GetCamera()
     {
         return library.GetFunction<Delegates.GetCamera>("GetCamera")();
     }
