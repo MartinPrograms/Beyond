@@ -46,9 +46,9 @@ namespace Graphics::Vulkan {
         rasterizer.frontFace = face;
     }
 
-    void PipelineBuilder::set_multisampling_none() {
+    void PipelineBuilder::set_multisampling(VkSampleCountFlagBits samples) {
         multisampling.sampleShadingEnable = VK_FALSE;
-        multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+        multisampling.rasterizationSamples = samples;
         multisampling.minSampleShading = 1.0f;
         multisampling.pSampleMask = nullptr;
         multisampling.alphaToCoverageEnable = VK_FALSE;

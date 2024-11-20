@@ -9,24 +9,26 @@ public unsafe class RenderEngine
     private ManagedNativeLibrary library;
     private void* window;
     private void* context; // graphics context
-    
+
     public RenderEngine(string title, int width, int height, bool vsync, bool fullscreen)
-    { 
+    {
         library = new ManagedNativeLibrary();
         if (OperatingSystem.IsWindows())
-            library.Load("../../../../../CPP-Vulkan/build/Beyond.dll"); // TODO: For macos, use .dylib instead of .dll or .so and remove this hardcoded path lol
+            library.Load(
+                "../../../../../CPP-Vulkan/build/Beyond.dll"); // TODO: For macos, use .dylib instead of .dll or .so and remove this hardcoded path lol
         if (OperatingSystem.IsLinux())
             library.Load("../../../../../CPP-Vulkan/build/Beyond.so");
         if (OperatingSystem.IsMacOS())
             library.Load("../../../../../CPP-Vulkan/build/libBeyond.dylib");
-        
+
         library.AutoLoadMethods<Delegates>();
-        
-        
-        window = library.GetFunction<Delegates.CreateWindow>("CreateWindow")(title.ToCharPointer(), width, height, vsync, fullscreen);
+
+
+        window = library.GetFunction<Delegates.CreateWindow>("CreateWindow")(title.ToCharPointer(), width, height,
+            vsync, fullscreen);
         context = library.GetFunction<Delegates.CreateGraphics>("CreateGraphics")();
     }
-    
+
     public void Run()
     {
         library.GetFunction<Delegates.Run>("Run")();

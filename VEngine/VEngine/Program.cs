@@ -33,7 +33,7 @@ unsafe
         engine.InitializeInput();
         
         engine.CreatePipeline("test", Path.GetFullPath("./shaders/vert.spv"), Path.GetFullPath("./shaders/frag.spv"));
-        mesh = engine.LoadMesh(Path.GetFullPath($"{root}/Models/cube.obj"), 0, "test");
+        mesh = engine.LoadMesh(Path.GetFullPath($"{root}/Models/monkey.fbx"), 0, "test");
         transform = engine.CreateTransform();
         camera = engine.CreateCamera();
         

@@ -12,6 +12,8 @@
 
 class vkutil {
 public:
+    static int max_samples;
+    static VkSampleCountFlagBits SampleCountFlagBits;
     static void VK_CHECK(VkResult vk_result) {
         if (vk_result != VK_SUCCESS) {
             throw std::runtime_error("Vulkan error: " + std::to_string(vk_result));
@@ -24,6 +26,8 @@ public:
     static VkPipelineLayoutCreateInfo pipeline_layout_create_info(VkDescriptorSetLayout* vk_descriptor_set_layout, int i);
 
     static void check_vk_result(VkResult vk_result);
+
+    static VkSampleCountFlagBits get_max_usable_sample_count();
 
     /*
          Vulkan::GPUMeshBuffers VulkanBackend::upload_mesh(std::span<uint32_t> indices, std::span<Vulkan::Vertex> vertices) {

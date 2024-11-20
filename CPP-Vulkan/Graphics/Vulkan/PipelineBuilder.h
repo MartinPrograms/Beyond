@@ -29,7 +29,7 @@ namespace Graphics::Vulkan {
         void set_input_topology(VkPrimitiveTopology topology);
         void set_polygon_mode(VkPolygonMode mode);
         void set_cull_mode(VkCullModeFlags mode, VkFrontFace face);
-        void set_multisampling_none();
+        void set_multisampling(VkSampleCountFlagBits samples);
         void disable_blend();
         void set_depth_test(bool enable);
         void set_color_attachment_format(VkFormat format);

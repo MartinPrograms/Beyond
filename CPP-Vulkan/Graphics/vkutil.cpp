@@ -11,6 +11,10 @@
 #include <vector>
 
 #include "vkinit.h"
+#include "Vulkan/VulkanContext.h"
+
+int vkutil::max_samples = -1;
+VkSampleCountFlagBits vkutil::SampleCountFlagBits = VK_SAMPLE_COUNT_1_BIT;
 
 void vkutil::transition_image(VkCommandBuffer cmd, VkImage image, VkImageLayout currentLayout, VkImageLayout newLayout)
 {
@@ -122,4 +126,28 @@ void vkutil::check_vk_result(VkResult vk_result) {
     if (vk_result != VK_SUCCESS) {
         throw std::runtime_error("Vulkan error: " + std::to_string(vk_result));
     }
+}
+
+VkSampleCountFlagBits vkutil::get_max_usable_sample_count() {
+    if (max_samples != -1) {
+        if (max_samples == 0) {
+            return VK_SAMPLE_COUNT_1_BIT;
+        }
+        return static_cast<VkSampleCountFlagBits>(max_samples); // Should be fine
+    }
+    VkPhysicalDeviceProperties physicalDeviceProperties;
+
+    auto context = Graphics::Vulkan::VulkanContext::getInstance();
+    vkGetPhysicalDeviceProperties(context->physicalDevice, &physicalDeviceProperties);
+
+    VkSampleCountFlags counts = physicalDeviceProperties.limits.framebufferColorSampleCounts & physicalDeviceProperties.limits.framebufferDepthSampleCounts;
+
+    if (counts & VK_SAMPLE_COUNT_64_BIT) { return VK_SAMPLE_COUNT_64_BIT; }
+    if (counts & VK_SAMPLE_COUNT_32_BIT) { return VK_SAMPLE_COUNT_32_BIT; }
+    if (counts & VK_SAMPLE_COUNT_16_BIT) { return VK_SAMPLE_COUNT_16_BIT; }
+    if (counts & VK_SAMPLE_COUNT_8_BIT) { return VK_SAMPLE_COUNT_8_BIT; }
+    if (counts & VK_SAMPLE_COUNT_4_BIT) { return VK_SAMPLE_COUNT_4_BIT; }
+    if (counts & VK_SAMPLE_COUNT_2_BIT) { return VK_SAMPLE_COUNT_2_BIT; }
+
+    return VK_SAMPLE_COUNT_1_BIT;
 }

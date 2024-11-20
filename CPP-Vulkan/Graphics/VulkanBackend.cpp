@@ -20,7 +20,7 @@
 
 namespace Graphics {
     VulkanBackend::VulkanBackend(Window *window): imguiBackend(nullptr) {
-        this->context = Vulkan::VulkanContext();
+        this->context = *Vulkan::VulkanContext::getInstance(); // This is a singleton, so it should be fine
         this->imguiBackend = Vulkan::ImGuiBackend(&this->context);
 
         this->context.window = window;
@@ -58,6 +58,10 @@ namespace Graphics {
 
         vkb::SwapchainBuilder swapchainBuilder {context.physicalDevice, context.device, context.surface};
 
+        swapchainBuilder.add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT);
+        swapchainBuilder.add_image_usage_flags(VK_IMAGE_USAGE_SAMPLED_BIT);
+        swapchainBuilder.add_image_usage_flags(VK_IMAGE_USAGE_STORAGE_BIT);
+
         unsigned int width, height;
         context.window->getFramebufferSize(&width, &height);
 
@@ -75,11 +79,11 @@ namespace Graphics {
 
         vkb::Swapchain vkbSwapchain = swapchainBuilder
             //.use_default_format_selection()
-            .set_desired_format(VkSurfaceFormatKHR{ .format = this->context.swapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR })
+            .set_desired_format(VkSurfaceFormatKHR{ .format = this->context.swapchainImageFormat, .colorSpace = this->context.colorSpace })
             //use vsync present mode
             .set_desired_present_mode(context.presentMode ) // no vsync
             .set_desired_extent(width, height)
-            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
+            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT).add_image_usage_flags(VK_IMAGE_USAGE_SAMPLED_BIT)
             .build()
             .value();
 
@@ -97,11 +101,10 @@ namespace Graphics {
         VkImageUsageFlags usage {};
         usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
         usage |= VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
-        usage |= VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_STORAGE_BIT;
+        usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
+        usage |= VK_IMAGE_USAGE_STORAGE_BIT;
 
         // DISABLE VK_IMAGE_TILING_OPTIMAL
-
-
         VkImageCreateInfo imageInfo = vkinit::image_create_info(_drawImage.imageFormat, usage, imageExtent);
 
         VmaAllocationCreateInfo allocInfo = {};
@@ -186,6 +189,7 @@ namespace Graphics {
 
         // Start the render pass
         VkClearValue clearColor = { .color = {this->clearColor.r, this->clearColor.g, this->clearColor.b, this->clearColor.a} };
+
         VkRenderingAttachmentInfo colorAttachment = vkinit::attachment_info(swapchainImageViews[imageIndex], &clearColor, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
         VkRenderingInfo renderInfo = vkinit::rendering_info(context.swapchainExtent, &colorAttachment, nullptr);
@@ -373,10 +377,17 @@ namespace Graphics {
         vulkan12Features.bufferDeviceAddress = VK_TRUE;
         vulkan12Features.descriptorIndexing = VK_TRUE; // For descriptor indexing (this is a feature that allows you to use arrays of descriptors)
 
+        VkPhysicalDeviceFeatures features{};
+        features.samplerAnisotropy = VK_TRUE;
+        features.shaderStorageImageMultisample = VK_TRUE;
+        features.shaderStorageImageExtendedFormats = VK_TRUE;
+
+
         vkb::PhysicalDeviceSelector selector {vkb_inst};
         vkb::PhysicalDevice physical_device = selector.set_surface(context.surface)
             .set_required_features_13(vulkan13Features)
             .set_required_features_12(vulkan12Features)
+            .set_required_features(features)
             .set_minimum_version(1,3)
             .select()
             .value();
@@ -407,6 +418,11 @@ namespace Graphics {
     }
 
     void VulkanBackend::init_swapchain() {
+
+        auto samples = vkutil::get_max_usable_sample_count();
+
+        std::cout << "Max samples: " << samples << std::endl;
+
         create_swapchain(context.window->width, context.window->height);
 
         VkExtent3D imageExtent = { .width = context.swapchainExtent.width, .height = context.swapchainExtent.height, .depth = 1 };
@@ -419,6 +435,8 @@ namespace Graphics {
         usage |= VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_STORAGE_BIT;
 
         VkImageCreateInfo imageInfo = vkinit::image_create_info(this->_drawImage.imageFormat, usage, imageExtent);
+
+        imageInfo.samples = vkutil::SampleCountFlagBits;
 
         VmaAllocationCreateInfo allocInfo = {};
         allocInfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
@@ -434,8 +452,6 @@ namespace Graphics {
         }
 
         context.mainDeletionQueue.push_function([=]() {
-
-
             vkDestroyImageView(context.device, this->_drawImage.imageView, nullptr);
             vmaDestroyImage(context.allocator, this->_drawImage.image, this->_drawImage.allocation);
         });
@@ -443,6 +459,7 @@ namespace Graphics {
 
     void VulkanBackend::create_swapchain(unsigned int width, unsigned int height, bool hdr) {
         vkb::SwapchainBuilder swapchainBuilder {context.physicalDevice, context.device, context.surface};
+        swapchainBuilder.set_desired_present_mode(context.presentMode);
 
         if (hdr) {
             this->context.swapchainImageFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
@@ -451,11 +468,11 @@ namespace Graphics {
 
         vkb::Swapchain vkbSwapchain = swapchainBuilder
             //.use_default_format_selection()
-            .set_desired_format(VkSurfaceFormatKHR{ .format = this->context.swapchainImageFormat, .colorSpace = this->context.colorSpace })
+            .set_desired_format(VkSurfaceFormatKHR{.format = this->context.swapchainImageFormat, .colorSpace = this->context.colorSpace})
             //use vsync present mode
             .set_desired_present_mode(this->context.presentMode)
             .set_desired_extent(width, height)
-            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
+            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT).add_image_usage_flags(VK_IMAGE_USAGE_SAMPLED_BIT)
             .build()
             .value();
 

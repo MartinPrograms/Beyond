@@ -191,8 +191,22 @@ public class ManagedNativeLibrary
         {
             return (T)cachedDelegates[s];
         }
-        
+
         throw new NotSupportedException("Method not found.");
+    }
+
+    public int CrossPlatformGetLastError()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return GetLastError();
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return Marshal.GetLastWin32Error();
+        }
+
+        throw new PlatformNotSupportedException("Unsupported OS platform.");
     }
 
     public void AutoLoadMethods<T>() where T : class

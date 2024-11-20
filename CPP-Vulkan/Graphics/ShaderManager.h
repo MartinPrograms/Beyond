@@ -76,9 +76,8 @@ public:
         pipelineBuilder.set_input_topology(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
         pipelineBuilder.set_polygon_mode(polygon_mode);
         pipelineBuilder.set_cull_mode(cull_mode, VK_FRONT_FACE_CLOCKWISE);
-        pipelineBuilder.set_multisampling_none();
-        pipelineBuilder.disable_blend();
-        pipelineBuilder.set_depth_test(true);
+        pipelineBuilder.set_multisampling(vkutil::SampleCountFlagBits);
+        pipelineBuilder.set_depth_test(true); // Q: Why does this not work?
         pipelineBuilder.set_color_attachment_format(colorAttachmentFormat);
         pipelineBuilder.set_depth_attachment_format(depthAttachmentFormat);
 

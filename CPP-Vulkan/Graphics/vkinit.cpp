@@ -4,6 +4,8 @@
 
 #include "vkinit.h"
 
+#include "vkutil.h"
+
 VkCommandPoolCreateInfo vkinit::command_pool_create_info(uint32_t queueFamilyIndex, VkCommandPoolCreateFlags flags) {
     VkCommandPoolCreateInfo info = {};
     info.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -113,8 +115,8 @@ VkImageCreateInfo vkinit::image_create_info(VkFormat format, VkImageUsageFlags u
     info.mipLevels = 1;
     info.arrayLayers = 1;
 
-    //for MSAA. we will not be using it by default, so default it to 1 sample per pixel.
-    info.samples = VK_SAMPLE_COUNT_1_BIT;
+    //we want the image to be optimal for the gpu to sample from
+    info.samples = vkutil::SampleCountFlagBits;
 
     //optimal tiling, which means the image is stored on the best gpu format
     info.tiling = VK_IMAGE_TILING_OPTIMAL;

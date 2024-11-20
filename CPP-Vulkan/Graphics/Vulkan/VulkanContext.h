@@ -17,23 +17,44 @@ namespace Vulkan {
 class VulkanContext {
 // Because C++ is a pain in the yk what, i have to do this to avoid a circular dependency (howwwwwwwwwwwwwwww is this even a thing)
 public:
-
+public:
     static VulkanContext* getInstance() {
+        if (!VulkanContextInstance) {
+            VulkanContextInstance = new VulkanContext();
+        }
         return VulkanContextInstance;
     }
 
-    static struct VkDevice_T* getDevice() {
+    static VkDevice getDevice() {
+        if (!VulkanContextInstance) {
+            throw std::runtime_error("VulkanContext has not been initialized!");
+        }
         return VulkanContextInstance->device;
     }
 
-VulkanContext() {
+    static VkPhysicalDevice getPhysicalDevice() {
+        if (!VulkanContextInstance) {
+            throw std::runtime_error("VulkanContext has not been initialized!");
+        }
+        return VulkanContextInstance->physicalDevice;
+    }
+
+    VulkanContext() {
+        if (VulkanContextInstance != nullptr) {
+            std::cout << "istg this is magic" << std::endl;
+            // just return the instance
+            return;
+        }
         VulkanContextInstance = this;
         this->window = nullptr;
         this->swapchainExtent = {0, 0};
         this->swapchain = VK_NULL_HANDLE;
         this->allocator = VK_NULL_HANDLE;
         this->immediateFence = VK_NULL_HANDLE;
+    }
 
+    ~VulkanContext() {
+        VulkanContextInstance = nullptr;
     }
 
     VkInstance instance{};
@@ -60,7 +81,9 @@ VulkanContext() {
     VkFence immediateFence{};
     VkCommandPool immediateCommandPool{};
     VkCommandBuffer immediateCommandBuffer{};
-static VulkanContext *VulkanContextInstance;
+
+    static VulkanContext* VulkanContextInstance;
+
 
 // Swapchain images are not owned by us, so we don't need to have them here
 };
