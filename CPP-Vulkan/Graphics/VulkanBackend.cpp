@@ -2,6 +2,8 @@
 // Created by marti on 23/09/2024.
 //
 
+#define USE_FFX 1
+
 #include "VulkanBackend.h"
 
 
@@ -20,6 +22,8 @@
 #include "Vulkan/MeshUtils.h"
 #include "Vulkan/PipelineBuilder.h"
 
+#include "../../CPP-Vulkan/FidelityFX/include/ffx_api.h"
+
 namespace Graphics {
     VulkanBackend::VulkanBackend(Window *window): imguiBackend(nullptr) {
         this->context = *Vulkan::VulkanContext::getInstance(); // This is a singleton, so it should be fine
@@ -28,6 +32,8 @@ namespace Graphics {
         this->context.window = window;
         this->defaultCamera = Camera();
         this->currentCamera = &defaultCamera;
+
+        ffxCreateContext(&this->context.ffxContext, nullptr, nullptr);
     }
 
     VulkanBackend::~VulkanBackend() {

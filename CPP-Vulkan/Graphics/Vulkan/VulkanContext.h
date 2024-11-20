@@ -9,6 +9,7 @@
 
 #include "Structs.h"
 #include "../../Window.h"
+#include "../../FidelityFX/include/ffx_api.h"
 
 namespace Graphics {
 namespace Vulkan {
@@ -83,6 +84,9 @@ public:
     VkCommandBuffer immediateCommandBuffer{};
 
     static VulkanContext* VulkanContextInstance;
+
+    // FFX
+    ffxContext ffxContext{};
 
 
 // Swapchain images are not owned by us, so we don't need to have them here
