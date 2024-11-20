@@ -71,32 +71,22 @@ namespace Graphics {
         }
 
         vkDestroyImageView(context.device, _drawImage.imageView, nullptr);
+        vkDestroyImageView(context.device, _depthImage.imageView, nullptr); // Destroy the depth image view
 
         swapchainImageViews.clear();
 
         vkDestroySwapchainKHR(context.device, context.swapchain, nullptr);
         vmaDestroyImage(context.allocator, _drawImage.image, _drawImage.allocation);
+        vmaDestroyImage(context.allocator, _depthImage.image, _depthImage.allocation);
 
-        vkb::Swapchain vkbSwapchain = swapchainBuilder
-            //.use_default_format_selection()
-            .set_desired_format(VkSurfaceFormatKHR{ .format = this->context.swapchainImageFormat, .colorSpace = this->context.colorSpace })
-            //use vsync present mode
-            .set_desired_present_mode(context.presentMode ) // no vsync
-            .set_desired_extent(width, height)
-            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT).add_image_usage_flags(VK_IMAGE_USAGE_SAMPLED_BIT)
-            .build()
-            .value();
+        // width, height hdr
+        create_swapchain(width, height, false);
 
-        context.swapchain = vkbSwapchain.swapchain;
-        context.swapchainExtent = vkbSwapchain.extent;
-        context.swapchainImageFormat = vkbSwapchain.image_format;
-
-        swapchainImages = vkbSwapchain.get_images().value();
-        swapchainImageViews = vkbSwapchain.get_image_views().value();
 
         VkExtent3D imageExtent = { .width = context.swapchainExtent.width, .height = context.swapchainExtent.height, .depth = 1 };
 
         _drawImage.imageFormat = context.swapchainImageFormat;
+        _depthImage.imageFormat = VK_FORMAT_D32_SFLOAT;
 
         VkImageUsageFlags usage {};
         usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
@@ -116,6 +106,21 @@ namespace Graphics {
         VkImageViewCreateInfo viewInfo = vkinit::image_view_create_info(_drawImage.imageFormat, _drawImage.image, VK_IMAGE_ASPECT_COLOR_BIT);
 
         vkutil::VK_CHECK(vkCreateImageView(context.device, &viewInfo, nullptr, &_drawImage.imageView));
+
+        _depthImage.imageFormat = VK_FORMAT_D32_SFLOAT;
+        _depthImage.imageExtent = imageExtent;
+        VkImageUsageFlags depthImageUsages{};
+        depthImageUsages |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+
+        VkImageCreateInfo dimg_info = vkinit::image_create_info(_depthImage.imageFormat, depthImageUsages, imageExtent);
+
+        //allocate and create the image
+        vmaCreateImage(context.allocator, &dimg_info, &allocInfo, &_depthImage.image, &_depthImage.allocation, nullptr);
+
+        //build a image-view for the draw image to use for rendering
+        VkImageViewCreateInfo dview_info = vkinit::image_view_create_info(_depthImage.imageFormat, _depthImage.image, VK_IMAGE_ASPECT_DEPTH_BIT);
+
+        vkutil::VK_CHECK(vkCreateImageView(context.device, &dview_info, nullptr, &_depthImage.imageView));
 
         VkDescriptorImageInfo drawImageInfo = {};
         drawImageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
@@ -186,13 +191,15 @@ namespace Graphics {
 
         // Now we need to transition the swapchain image to a layout that our render pass can use
         vkutil::transition_image(frame.mainCommandBuffer, swapchainImages[imageIndex], VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+        vkutil::transition_image(frame.mainCommandBuffer, _depthImage.image,  VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL);
 
         // Start the render pass
         VkClearValue clearColor = { .color = {this->clearColor.r, this->clearColor.g, this->clearColor.b, this->clearColor.a} };
 
         VkRenderingAttachmentInfo colorAttachment = vkinit::attachment_info(swapchainImageViews[imageIndex], &clearColor, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+        VkRenderingAttachmentInfo depthAttachment = vkinit::depth_attachment_info(_depthImage.imageView, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 
-        VkRenderingInfo renderInfo = vkinit::rendering_info(context.swapchainExtent, &colorAttachment, nullptr);
+        VkRenderingInfo renderInfo = vkinit::rendering_info(context.swapchainExtent, &colorAttachment, &depthAttachment);
 
         vkCmdBeginRendering(frame.mainCommandBuffer, &renderInfo);
 
@@ -451,9 +458,29 @@ namespace Graphics {
             throw std::runtime_error("Failed to create image view!");
         }
 
+        // Create the depth image
+        this->_depthImage.imageFormat = VK_FORMAT_D32_SFLOAT;
+        this->_depthImage.imageExtent = imageExtent;
+        VkImageUsageFlags depthImageUsages{};
+        depthImageUsages |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+
+        VkImageCreateInfo dimg_info = vkinit::image_create_info(_depthImage.imageFormat, depthImageUsages, imageExtent);
+
+        //allocate and create the image
+        vmaCreateImage(context.allocator, &dimg_info, &allocInfo, &_depthImage.image, &_depthImage.allocation, nullptr);
+
+        //build a image-view for the draw image to use for rendering
+        VkImageViewCreateInfo dview_info = vkinit::image_view_create_info(_depthImage.imageFormat, _depthImage.image, VK_IMAGE_ASPECT_DEPTH_BIT);
+
+        vkutil::VK_CHECK(vkCreateImageView(context.device, &dview_info, nullptr, &_depthImage.imageView));
+
+
         context.mainDeletionQueue.push_function([=]() {
             vkDestroyImageView(context.device, this->_drawImage.imageView, nullptr);
             vmaDestroyImage(context.allocator, this->_drawImage.image, this->_drawImage.allocation);
+
+            vkDestroyImageView(context.device, this->_depthImage.imageView, nullptr);
+            vmaDestroyImage(context.allocator, this->_depthImage.image, this->_depthImage.allocation);
         });
     }
 

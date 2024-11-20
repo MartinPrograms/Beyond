@@ -61,12 +61,22 @@ namespace Graphics::Vulkan {
 
     }
 
-    void PipelineBuilder::set_depth_test(bool enable) {
+    void PipelineBuilder::set_depth_test(bool enable, VkCompareOp op) {
         depthStencil.depthTestEnable = enable ? VK_TRUE : VK_FALSE;
         depthStencil.depthWriteEnable = enable ? VK_TRUE : VK_FALSE;
-        depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
-        depthStencil.depthBoundsTestEnable = VK_FALSE;
-        depthStencil.stencilTestEnable = VK_FALSE;
+
+        if (enable) {
+            depthStencil.depthCompareOp = op;
+            depthStencil.depthBoundsTestEnable = VK_FALSE;
+            depthStencil.stencilTestEnable = VK_FALSE;
+            depthStencil.front = {};
+            depthStencil.back = {};
+            depthStencil.minDepthBounds = 0.f;
+            depthStencil.maxDepthBounds = 1.f;
+        }
+        else {
+            depthStencil.depthCompareOp = VK_COMPARE_OP_ALWAYS;
+        }
     }
 
     void PipelineBuilder::set_color_attachment_format(VkFormat format) {
@@ -74,10 +84,31 @@ namespace Graphics::Vulkan {
         colorBlendAttachment.blendEnable = VK_FALSE;
     }
 
-    void PipelineBuilder::set_depth_attachment_format(VkFormat format) {
-        depthStencil.depthTestEnable = VK_TRUE;
-        depthStencil.depthWriteEnable = VK_TRUE;
-        depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
+    void PipelineBuilder::set_depth_attachment_format(VkFormat format){
+        renderInfo.depthAttachmentFormat = format;
+    }
+    void PipelineBuilder::enable_blending_additive()
+    {
+        colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+        colorBlendAttachment.blendEnable = VK_TRUE;
+        colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+        colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+        colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+        colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+        colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+        colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+    }
+
+    void PipelineBuilder::enable_blending_alphablend()
+    {
+        colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+        colorBlendAttachment.blendEnable = VK_TRUE;
+        colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+        colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+        colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+        colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+        colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+        colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
     }
 
     VkPipeline PipelineBuilder::build(VkDevice device) {

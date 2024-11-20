@@ -91,6 +91,7 @@ namespace Graphics {
         // Swapchain
 
         Vulkan::AllocatedImage _drawImage;
+        Vulkan::AllocatedImage _depthImage; // F U vulkan, I have to do this myself
 
         Vulkan::FrameData frames[FRAME_OVERLAP];
         int currentFrame = 0;

@@ -10,5 +10,5 @@ layout (location = 0) out vec4 outFragColor;
 void main()
 {
     // Dra wnormal as color
-    outFragColor = vec4(normal * 0.5 + 0.5, 1.0);
+    outFragColor = vec4(normal * 0.5 + 0.5, 1);
 }

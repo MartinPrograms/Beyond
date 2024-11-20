@@ -31,9 +31,13 @@ namespace Graphics::Vulkan {
         void set_cull_mode(VkCullModeFlags mode, VkFrontFace face);
         void set_multisampling(VkSampleCountFlagBits samples);
         void disable_blend();
-        void set_depth_test(bool enable);
+        void set_depth_test(bool enable, VkCompareOp op);
         void set_color_attachment_format(VkFormat format);
         void set_depth_attachment_format(VkFormat format);
+
+        void enable_blending_additive();
+
+        void enable_blending_alphablend();
 
         VkPipeline build(VkDevice device);
     };

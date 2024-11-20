@@ -28,12 +28,12 @@ unsafe
         camera.Pointer->AspectRatio = (float)x / y;
     });
 
-    engine.SetLoadCallback(() =>
+    engine.SetLoadCallback(() =>    
     {
         engine.InitializeInput();
         
         engine.CreatePipeline("test", Path.GetFullPath("./shaders/vert.spv"), Path.GetFullPath("./shaders/frag.spv"));
-        mesh = engine.LoadMesh(Path.GetFullPath($"{root}/Models/monkey.fbx"), 0, "test");
+        mesh = engine.LoadMesh(Path.GetFullPath($"{root}/Models/monkey.obj"), 0, "test");
         transform = engine.CreateTransform();
         camera = engine.CreateCamera();
         

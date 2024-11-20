@@ -77,9 +77,10 @@ public:
         pipelineBuilder.set_polygon_mode(polygon_mode);
         pipelineBuilder.set_cull_mode(cull_mode, VK_FRONT_FACE_CLOCKWISE);
         pipelineBuilder.set_multisampling(vkutil::SampleCountFlagBits);
-        pipelineBuilder.set_depth_test(true); // Q: Why does this not work?
+        pipelineBuilder.set_depth_test(true, VK_COMPARE_OP_LESS);
         pipelineBuilder.set_color_attachment_format(colorAttachmentFormat);
         pipelineBuilder.set_depth_attachment_format(depthAttachmentFormat);
+        pipelineBuilder.enable_blending_alphablend();
 
         VkPipeline pipeline = pipelineBuilder.build(device);
 
