@@ -65,6 +65,9 @@ extern "C"{
     API_EXPORT void RenderMesh(void* mesh);
 
     API_EXPORT glm::vec2 *GetResolution();
+
+    // FFX testing
+    API_EXPORT void UseSSAO();
 }
 
 #endif //API_H

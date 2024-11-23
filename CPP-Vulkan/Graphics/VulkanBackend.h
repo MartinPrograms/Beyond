@@ -78,6 +78,8 @@ namespace Graphics {
 
         void useCamera(Camera & camera);
 
+        void useSSAO();
+
         Camera* currentCamera;
         Camera defaultCamera; // Default camera, used when no camera is set
 

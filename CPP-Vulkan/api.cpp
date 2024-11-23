@@ -163,3 +163,7 @@ void SetResizeCallback(ResizeCallback callback) {
 glm::vec2 *GetResolution() {
     return new glm::vec2(window.width, window.height);
 }
+
+void UseSSAO() {
+    graphics->useSSAO();
+}

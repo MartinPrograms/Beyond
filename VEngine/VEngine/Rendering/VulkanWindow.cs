@@ -14,8 +14,6 @@ public unsafe class VulkanWindow
 
     private float[] times = new float[1000];
     private int timer = 0;
-
-    private unsafe SafetyWrapper<VkCamera> camera = new SafetyWrapper<VkCamera>(null); // This is a safety wrapper, which is a pointer to a struct in C++, with some extension methods to make it easier to work with in C#.
     
     public VulkanWindow(string title, int width, int height, bool vsync, bool fullscreen)
     {
@@ -52,11 +50,10 @@ public unsafe class VulkanWindow
     }
     
     private float deltaTime => _engine.GetDeltaTime();
-    public unsafe Camera Camera {
-        get
-        {
-            return new Camera(_engine.GetCamera());
-        }
+
+    public unsafe Camera MakeCamera()
+    {
+        { return new Camera(_engine.CreateCamera()); }
     }
 
     public float Width => _width;
@@ -64,8 +61,6 @@ public unsafe class VulkanWindow
 
     private void _render()
     {
-        _engine.SetCamera(camera);
-        
         Render?.Invoke(deltaTime);
         
         _engine.Render();
@@ -73,9 +68,6 @@ public unsafe class VulkanWindow
     
     private void _load()
     {
-        camera = _engine.CreateCamera();
-        _engine.SetCamera(camera);
-        
         Load?.Invoke();
     }
     

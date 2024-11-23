@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 project(Beyond)
 
-
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -57,14 +56,6 @@ add_library(Beyond SHARED
         input.h
         input.cpp
 )
-
-# TODO: This project just became windows only, you can remove this if you want to support other platforms
-# But I will now only support windows
-# It will have remnants of other platforms, but they will be removed in the future
-# Include FidelityFX SDK in ./FidelityFX/ffx-api/bin(or include)
-target_link_directories(Beyond PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/FidelityFX/bin)
-target_include_directories(Beyond PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/FidelityFX/include)
-
 
 target_link_libraries(Beyond PRIVATE Vulkan::Headers vk-bootstrap::vk-bootstrap vk-bootstrap::vk-bootstrap-compiler-warnings glfw glm::glm Vulkan::Vulkan)
 target_link_libraries(Beyond PRIVATE imgui::imgui)

@@ -2,6 +2,7 @@
 using NativeTools;
 using VEngine;
 using VEngine.Rendering;
+using VEngine.Rendering.Managed;
 using VEngine.Rendering.Structs;
 using VEngine.Tools;
 using Camera = VEngine.Rendering.Managed.Camera;
@@ -16,11 +17,10 @@ ShaderCompiler.Compile($"{root}/Shaders/default.vert", $"./shaders/vert.spv");
 ShaderCompiler.Compile($"{root}/Shaders/default.frag", $"./shaders/frag.spv");
 
 VulkanWindow window = new VulkanWindow("VEngine", 1920, 1080, true, false);
+Camera camera = null;
 
 window.Update += deltaTime =>
 {
-    Camera camera = window.Camera;
-
     float speed = 2f * deltaTime;
     if (Input.GetKey(Key.W))
         camera.Position += camera.Front * speed;
@@ -54,25 +54,35 @@ window.Update += deltaTime =>
     }
 };
 
+
+Mesh m = null;
 window.Load += () =>
 {
     Graphics.CreatePipeline("default", "./shaders/vert.spv", "./shaders/frag.spv");
-    
-    Camera camera = window.Camera;
+
+    camera = window.MakeCamera();
     camera.Position = new Vector3(0, 0, 3);
-    camera.Fov = 45;
+    camera.Fov = 60;
     camera.AspectRatio = window.Width / (float) window.Height;
     camera.Near = 0.1f;
     camera.Far = 100f;
     camera.Update();
+    
+    m = new Mesh(Path.GetFullPath(Path.Combine(root, "Models\\monkey.obj")), 0, "default");
 };
 
 var hsv = new Hsv(0, 0.7f, 0.8f);
 
 window.Render += deltaTime =>
 {
-    hsv.AddHue(100 * deltaTime);
+    hsv.AddHue(25 * deltaTime);
     Graphics.ClearColor(hsv.ToRgb());
+    
+    Graphics.SetCamera(camera);
+    
+    m!.Render();
+    
+    Graphics.SSAO();
 };
 
 window.Run();

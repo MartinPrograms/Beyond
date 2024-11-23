@@ -64,6 +64,8 @@ public class Delegates
     public unsafe delegate void SetResizeCallback(Callbacks.ResizeCallback resizeCallback);
 
     public unsafe delegate Vector2 *GetResolution();
+
+    public unsafe delegate void UseSSAO();
 }
 
 public class Callbacks

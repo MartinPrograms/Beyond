@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using VEngine.Rendering.Managed;
 
 namespace VEngine.Rendering;
 
@@ -28,5 +29,19 @@ public static class Graphics
     {
         _engine!.CreatePipeline(name, vertexShaderPath, fragmentShaderPath);
     }
-    
+
+    public static RenderEngine GetEngine()
+    {
+        return _engine!;
+    }
+
+    public static unsafe void SetCamera(Camera windowCamera)
+    {
+        _engine!.SetCamera(windowCamera);
+    }
+
+    public static void SSAO()
+    {
+        _engine!.UseSSAO();
+    }
 }

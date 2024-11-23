@@ -22,9 +22,8 @@
 #include "Vulkan/MeshUtils.h"
 #include "Vulkan/PipelineBuilder.h"
 
-#include "../../CPP-Vulkan/FidelityFX/include/ffx_api.h"
-
 namespace Graphics {
+
     VulkanBackend::VulkanBackend(Window *window): imguiBackend(nullptr) {
         this->context = *Vulkan::VulkanContext::getInstance(); // This is a singleton, so it should be fine
         this->imguiBackend = Vulkan::ImGuiBackend(&this->context);
@@ -32,8 +31,6 @@ namespace Graphics {
         this->context.window = window;
         this->defaultCamera = Camera();
         this->currentCamera = &defaultCamera;
-
-        ffxCreateContext(&this->context.ffxContext, nullptr, nullptr);
     }
 
     VulkanBackend::~VulkanBackend() {
@@ -345,6 +342,16 @@ namespace Graphics {
         });
 
         this->lastSetCamera = camera;
+    }
+
+    void VulkanBackend::useSSAO() {
+        // Add to the drawQueue
+        drawQueue.push_back([&](VkCommandBuffer cmd, VkImageView drawImage) mutable {
+            //std::cout << "Applying SSAO" << std::endl;
+            // Yeah whatever, fidelity fx fucking sucks
+            // Fuck you AMD
+            // Ill have to cook up something myself
+        });
     }
 
 

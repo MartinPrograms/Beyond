@@ -21,7 +21,12 @@ public class Camera
     {
         return camera._camera;
     }
-    
+
+    public static unsafe implicit operator VkCamera*(Camera camera)
+    {
+        return camera._camera.Pointer;
+    }
+
     public static implicit operator Camera(SafetyWrapper<Structs.VkCamera> camera)
     {
         return new Camera(camera);

@@ -227,4 +227,9 @@ public unsafe class RenderEngine
     {
         return (library.GetFunction<Delegates.GetResolution>("GetResolution")());
     }
+
+    public void UseSSAO()
+    {
+        library.GetFunction<Delegates.UseSSAO>("UseSSAO")();
+    }
 }
