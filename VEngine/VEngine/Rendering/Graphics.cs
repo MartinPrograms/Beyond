@@ -39,9 +39,4 @@ public static class Graphics
     {
         _engine!.SetCamera(windowCamera);
     }
-
-    public static void SSAO()
-    {
-        _engine!.UseSSAO();
-    }
 }

@@ -167,3 +167,17 @@ glm::vec2 *GetResolution() {
 void UseSSAO() {
     graphics->useSSAO();
 }
+
+/*
+ *
+*    API_EXPORT void* CreatePostProcessingEffect(int type, char* vertexShaderPath, char* fragmentShaderPath);
+API_EXPORT void UsePostProcessingEffect(void* effect);
+    */
+
+void *CreatePostProcessingEffect(int type, char *vertexShaderPath, char *fragmentShaderPath) {
+    return graphics->createPostProcessingEffect(type, vertexShaderPath, fragmentShaderPath);
+}
+
+void UsePostProcessingEffect(void *effect) {
+    graphics->usePostProcessingEffect(effect);
+}

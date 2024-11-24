@@ -55,6 +55,10 @@ add_library(Beyond SHARED
         api.cpp
         input.h
         input.cpp
+        Graphics/Vulkan/PostProcessing/PostProcessingEffect.cpp
+        Graphics/Vulkan/PostProcessing/PostProcessingEffect.h
+        Graphics/Vulkan/PostProcessing/Blur.cpp
+        Graphics/Vulkan/PostProcessing/Blur.h
 )
 
 target_link_libraries(Beyond PRIVATE Vulkan::Headers vk-bootstrap::vk-bootstrap vk-bootstrap::vk-bootstrap-compiler-warnings glfw glm::glm Vulkan::Vulkan)

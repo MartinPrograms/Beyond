@@ -21,6 +21,8 @@
 #include "glm/glm.hpp"
 #include "Vulkan/MeshUtils.h"
 #include "Vulkan/PipelineBuilder.h"
+#include "Vulkan/PostProcessing/Blur.h"
+#include "Vulkan/PostProcessing/PostProcessingEffect.h"
 
 namespace Graphics {
 
@@ -344,16 +346,32 @@ namespace Graphics {
         this->lastSetCamera = camera;
     }
 
-    void VulkanBackend::useSSAO() {
-        // Add to the drawQueue
-        drawQueue.push_back([&](VkCommandBuffer cmd, VkImageView drawImage) mutable {
-            //std::cout << "Applying SSAO" << std::endl;
-            // Yeah whatever, fidelity fx fucking sucks
-            // Fuck you AMD
-            // Ill have to cook up something myself
-        });
+    void* VulkanBackend::createPostProcessingEffect(int type, char* vertex_shader_path, char* fragment_shader_path) {
+        auto postProcessingEffectType = static_cast<Vulkan::PostProcessing::PostProcessingEffectType>(type);
+        if (postProcessingEffectType == Vulkan::PostProcessing::BLUR) {
+            auto* effect = new Blur(); // Dynamically allocate the effect
+            effect->initialize(this->context.device,
+                               this->context.physicalDevice,
+                               this->context.immediateCommandPool,
+                               this->context.graphicsQueue,
+                               this->context.swapchainExtent,
+                               vertex_shader_path,
+                               fragment_shader_path);
+
+            return effect;
+        }
+
+        return nullptr;
     }
 
+    void VulkanBackend::usePostProcessingEffect(void *effect) {
+        auto a = static_cast<Vulkan::PostProcessing::PostProcessingEffect*>(effect);
+
+        // Add the a.recordcommands to the draw queue
+        drawQueue.push_back([&](VkCommandBuffer cmd, VkImageView drawImage) mutable {
+            a->recordCommands(cmd, context.swapchainExtent, _drawImage.image, _drawImage.image);
+        });
+    }
 
     void VulkanBackend::init_vulkan() {
         vkb::InstanceBuilder builder;

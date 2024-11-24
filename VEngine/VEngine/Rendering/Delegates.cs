@@ -52,20 +52,18 @@ public class Delegates
     public unsafe delegate void SetCamera(VkCamera* camera);
     public unsafe delegate VkCamera* GetCamera();
     
-    // Input:
-
-    
+    // Input stuff
     public unsafe delegate void SetKeyCallback(Callbacks.KeyCallback keyCallback);
     public unsafe delegate void SetMouseButtonCallback(Callbacks.MouseButtonCallback mouseButtonCallback);
     public unsafe delegate void SetMouseCallback(Callbacks.MouseCallback mouseCallback);
     public unsafe delegate void InitializeInput(void* window);
-
     public unsafe delegate void SetMouseMode(int mode);
     public unsafe delegate void SetResizeCallback(Callbacks.ResizeCallback resizeCallback);
-
+    
     public unsafe delegate Vector2 *GetResolution();
 
-    public unsafe delegate void UseSSAO();
+    public unsafe delegate void* CreatePostProcessingEffect(int type, char* vertexShaderPath, char* fragmentShaderPath);
+    public unsafe delegate void UsePostProcessingEffect(void* effect);
 }
 
 public class Callbacks

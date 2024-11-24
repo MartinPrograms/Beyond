@@ -66,8 +66,9 @@ extern "C"{
 
     API_EXPORT glm::vec2 *GetResolution();
 
-    // FFX testing
-    API_EXPORT void UseSSAO();
+    // Setups for post-processing
+    API_EXPORT void* CreatePostProcessingEffect(int type, char* vertexShaderPath, char* fragmentShaderPath);
+    API_EXPORT void UsePostProcessingEffect(void* effect);
 }
 
 #endif //API_H

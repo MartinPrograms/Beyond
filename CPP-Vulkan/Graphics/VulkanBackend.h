@@ -80,6 +80,10 @@ namespace Graphics {
 
         void useSSAO();
 
+        void * createPostProcessingEffect(int type, char * vertex_shader_path, char * fragment_shader_path);
+
+        void usePostProcessingEffect(void * effect);
+
         Camera* currentCamera;
         Camera defaultCamera; // Default camera, used when no camera is set
 

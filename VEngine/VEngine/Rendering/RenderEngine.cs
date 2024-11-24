@@ -227,9 +227,20 @@ public unsafe class RenderEngine
     {
         return (library.GetFunction<Delegates.GetResolution>("GetResolution")());
     }
-
-    public void UseSSAO()
+    
+    public void* CreatePostProcessingEffect(PostProcessingType type, string vertexShaderPath, string fragmentShaderPath)
     {
-        library.GetFunction<Delegates.UseSSAO>("UseSSAO")();
+        return library.GetFunction<Delegates.CreatePostProcessingEffect>("CreatePostProcessingEffect")((int)type, vertexShaderPath.ToCharPointer(), fragmentShaderPath.ToCharPointer());
+    }
+    
+    public void UsePostProcessingEffect(void* effect)
+    {
+        library.GetFunction<Delegates.UsePostProcessingEffect>("UsePostProcessingEffect")(effect);
+    }
+
+    public enum PostProcessingType
+    {
+        Blur,
+        Ssao,
     }
 }

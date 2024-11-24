@@ -17,23 +17,23 @@ ShaderCompiler.Compile($"{root}/Shaders/default.vert", $"./shaders/vert.spv");
 ShaderCompiler.Compile($"{root}/Shaders/default.frag", $"./shaders/frag.spv");
 
 VulkanWindow window = new VulkanWindow("VEngine", 1920, 1080, true, false);
-Camera camera = null;
+Camera? camera = null;
 
 window.Update += deltaTime =>
 {
     float speed = 2f * deltaTime;
     if (Input.GetKey(Key.W))
-        camera.Position += camera.Front * speed;
+        camera!.Position += camera.Front * speed;
     if (Input.GetKey(Key.S))
-        camera.Position -= camera.Front * speed;
+        camera!.Position -= camera.Front * speed;
     if (Input.GetKey(Key.A))
-        camera.Position += camera.Right * speed;
+        camera!.Position += camera.Right * speed;
     if (Input.GetKey(Key.D))
-        camera.Position -= camera.Right * speed;
+        camera!.Position -= camera.Right * speed;
     if (Input.GetKey(Key.Space))
-        camera.Position += camera.Up * speed;
+        camera!.Position += camera.Up * speed;
     if (Input.GetKey(Key.LeftShift))
-        camera.Position -= camera.Up * speed;
+        camera!.Position -= camera.Up * speed;
 
 
     if (Input.GetMouseButton(MouseButton.Right))
@@ -41,10 +41,10 @@ window.Update += deltaTime =>
         float sensitivity = 0.1f;
         float x = Input.MouseDelta.X;
         float y = Input.MouseDelta.Y;
-        camera.Yaw -= x * sensitivity;
-        camera.Pitch -= y * sensitivity;
+        camera!.Yaw -= x * sensitivity;
+        camera!.Pitch -= y * sensitivity;
 
-        camera.Update(); // Update the camera's front, right and up vectors
+        camera!.Update(); // Update the camera's front, right and up vectors
 
         Input.MouseMode = MouseMode.Disabled;
     }
@@ -55,7 +55,7 @@ window.Update += deltaTime =>
 };
 
 
-Mesh m = null;
+Mesh? m = null;
 window.Load += () =>
 {
     Graphics.CreatePipeline("default", "./shaders/vert.spv", "./shaders/frag.spv");
@@ -78,11 +78,9 @@ window.Render += deltaTime =>
     hsv.AddHue(25 * deltaTime);
     Graphics.ClearColor(hsv.ToRgb());
     
-    Graphics.SetCamera(camera);
+    Graphics.SetCamera(camera!);
     
-    m!.Render();
-    
-    Graphics.SSAO();
+    m!.Render(); 
 };
 
 window.Run();
